@@ -1,0 +1,5 @@
+FLASK_APP=main.py
+DB_HOST=localhost
+DB_DATABASE=capstone_project
+DB_USERNAME=root
+DB_PASSWORD=
