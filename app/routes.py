@@ -1,7 +1,8 @@
 from crypt import methods
 from flask import jsonify,request
-from app import app,db
-from app.models import User
+from app import app,db,response
+from app.model.user import User
+from app.controller import UserController
 
 
 @app.route('/')
@@ -9,38 +10,37 @@ from app.models import User
 def index():
     return jsonify({"msg" : "This is price-optimizer-api"})
 
-@app.route('/user', methods = ['GET','POST'])
+# Read all users
+@app.route('/users', methods = ['GET'])
 def user():
-    if request.method == 'GET':
-        users= User.query.all()
-        result = []
-        for user in users:
-            obj = {
-                'name' : user.name,
-                'email' : user.email,
-                'method' : request.method
-            }   
-            result.append(obj)
-        return jsonify(result)
+    return UserController.index()
 
-    elif request.method == 'POST':
-        
-        """
-        Ngambil data dari JSON parse ke db.session.add(u) -> db.session.commit()
-        baru return success
-        """
-        return jsonify({"msg": "Success"})
-
-
-@app.route('/user/<int:id>', methods = ['GET'])
+# Read userById
+@app.route('/users/<int:id>', methods = ['GET'])
 def user_get(id):
     user_id = id
     u = User.query.get(user_id)
-    construct = {
+    data = {
             'user': {
                 'id': u.id,
                 'name': u.name,
             }
         }
 
-    return jsonify(construct)
+    return response.ok(data,"")
+
+
+# User Register
+@app.route('/users/register', methods = ['POST'])
+def user_register():
+    
+
+    return response.ok("haha","")
+
+# User Login
+@app.route('/users/login', methods = ['POST'])
+def user_login():
+
+    
+
+    return response.ok("haha","")
