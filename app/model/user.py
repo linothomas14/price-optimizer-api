@@ -11,24 +11,26 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     transactions = db.relationship('Transaction', backref='author', lazy='dynamic')
 
-    def __init__(self, name, email, password_hash, created_at, updated_at):
-        self.name = name
-        self.email = email
-        self.password_hash = password_hash
-        self.created_at = created_at
-        self.updated_at = updated_at
+    # def __init__(self, name, email, password_hash, created_at, updated_at):
+    #     self.name = name
+    #     self.email = email
+    #     self.password_hash = password_hash
+    #     self.created_at = created_at
+    #     self.updated_at = updated_at
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
+    
+    def getById(self):
+        users = User.query.filter_by(email=self.email).first()
+        if not users :
+            return 1
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
         
     

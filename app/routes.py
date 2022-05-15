@@ -3,10 +3,9 @@ from flask import jsonify,request
 from app import app,db,response
 from app.model.user import User
 from app.controller import UserController
-
+from flask_jwt_extended import *
 
 @app.route('/')
-@app.route('/index')
 def index():
     return jsonify({"msg" : "This is price-optimizer-api"})
 
@@ -16,31 +15,18 @@ def user():
     return UserController.index()
 
 # Read userById
+
 @app.route('/users/<int:id>', methods = ['GET'])
 def user_get(id):
-    user_id = id
-    u = User.query.get(user_id)
-    data = {
-            'user': {
-                'id': u.id,
-                'name': u.name,
-            }
-        }
-
-    return response.ok(data,"")
+    return UserController.show(id)
 
 
 # User Register
 @app.route('/users/register', methods = ['POST'])
 def user_register():
-    
-
-    return response.ok("haha","")
+    return UserController.register()
 
 # User Login
 @app.route('/users/login', methods = ['POST'])
 def user_login():
-
-    
-
-    return response.ok("haha","")
+    return UserController.login()

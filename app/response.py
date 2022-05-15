@@ -9,6 +9,13 @@ def ok(values, message):
 
     return make_response(jsonify(res)), 200
 
+def addData(values, message):
+    res = {
+        'values': values,
+        'message': message
+    }
+
+    return make_response(jsonify(res)), 201
 
 def badRequest(values, message):
     res = {

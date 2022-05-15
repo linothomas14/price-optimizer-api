@@ -12,3 +12,4 @@ class Config(object):
         ':' + PASSWORD + '@' + HOST + '/' + DATABASE
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
+    JWT_SECRET_KEY = str(os.environ.get("JWT_SECRET"))
