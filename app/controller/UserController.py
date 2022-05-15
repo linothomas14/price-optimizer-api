@@ -35,7 +35,7 @@ def show(id):
     try:
         user = User.query.filter_by(id=id).first()
         if not user:
-            return response.badRequest([], 'Empty....')
+            return response.badRequest([], 'user not found')
 
         data = singleTransform(user)
         return response.ok(data, "")

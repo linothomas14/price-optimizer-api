@@ -1,7 +1,5 @@
-from crypt import methods
-from flask import jsonify,request
-from app import app,db,response
-from app.model.user import User
+from flask import jsonify
+from app import app
 from app.controller import UserController
 from flask_jwt_extended import *
 
@@ -15,7 +13,6 @@ def user():
     return UserController.index()
 
 # Read userById
-
 @app.route('/users/<int:id>', methods = ['GET'])
 def user_get(id):
     return UserController.show(id)
