@@ -1,6 +1,6 @@
-from flask import jsonify
+from flask import jsonify, request
 from app import app
-from app.controller import UserController
+from app.controller import UserController, ProductController
 from flask_jwt_extended import *
 
 @app.route('/')
@@ -17,7 +17,6 @@ def user():
 def user_get(id):
     return UserController.show(id)
 
-
 # User Register
 @app.route('/users/register', methods = ['POST'])
 def user_register():
@@ -27,3 +26,23 @@ def user_register():
 @app.route('/users/login', methods = ['POST'])
 def user_login():
     return UserController.login()
+
+# Read and add products
+@app.route('/products', methods = ['GET','POST'])
+def product():
+    if request.method == 'GET':
+        return ProductController.index()
+    else :
+        return ProductController.addProduct()
+
+# Update product
+@app.route('/products/<int:id>', methods = ['PUT'])
+def product_update(id):
+    return ProductController.updateProduct(id)
+    
+# Delete product
+@app.route('/products/<int:id>', methods = ['DELETE'])
+def product_delete(id):
+    return ProductController.deleteProduct(id)
+    
+

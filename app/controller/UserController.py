@@ -21,11 +21,11 @@ def transform(users):
         data.append(singleTransform(i))
     return data
 
-def singleTransform(users):
+def singleTransform(user):
     data = {
-        'id': users.id,
-        'name': users.name,
-        'email': users.email
+        'id': user.id,
+        'name': user.name,
+        'email': user.email
     }
     return data
 

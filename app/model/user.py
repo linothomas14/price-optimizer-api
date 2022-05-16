@@ -7,16 +7,10 @@ class User(db.Model):
     name = db.Column(db.String(230), nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    role= db.Column(db.String(50), nullable=False, default='user')
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
     transactions = db.relationship('Transaction', backref='author', lazy='dynamic')
-
-    # def __init__(self, name, email, password_hash, created_at, updated_at):
-    #     self.name = name
-    #     self.email = email
-    #     self.password_hash = password_hash
-    #     self.created_at = created_at
-    #     self.updated_at = updated_at
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
