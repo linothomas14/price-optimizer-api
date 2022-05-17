@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from app import app
+from app import app, response
 from app.controller import UserController, ProductController
 from flask_jwt_extended import *
 
@@ -33,16 +33,34 @@ def product():
     if request.method == 'GET':
         return ProductController.index()
     else :
+        isAdmin = checkAuth()
+        if isAdmin is False:
+            return response.badRequest('','auth not recognized')
         return ProductController.addProduct()
 
 # Update product
 @app.route('/products/<int:id>', methods = ['PUT'])
 def product_update(id):
+    isAdmin = checkAuth()
+    if isAdmin is False:
+        return response.badRequest('','auth not recognized')
+    
     return ProductController.updateProduct(id)
     
 # Delete product
 @app.route('/products/<int:id>', methods = ['DELETE'])
 def product_delete(id):
+    isAdmin = checkAuth()
+    if isAdmin is False:
+        return response.badRequest('','auth not recognized')
+
     return ProductController.deleteProduct(id)
     
 
+# Return True if user role is admin
+@jwt_required()
+def checkAuth():
+    user_identity = get_jwt_identity()
+    return True if user_identity['role'] == 'admin' else False
+    
+    
