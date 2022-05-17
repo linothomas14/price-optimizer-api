@@ -1,3 +1,4 @@
+import os
 from flask import jsonify,request
 from app.model.user import User
 from app import response, app, db
@@ -95,7 +96,7 @@ def login():
 @app.cli.command('db_seed')
 def db_seed():
     user = User(name="admin", email="admin@gmail.com")
-    user.set_password('password')
+    user.set_password(str(os.environ.get("PASSWORD_ADMIN")))
     user.role = 'admin'
     print("Adding user: %s" % user)
     db.session.add(user)
