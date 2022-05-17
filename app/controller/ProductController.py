@@ -65,7 +65,7 @@ def addProduct():
         print(e)
         return response.badRequest('error', 'Bad request')
 
-@jwt_required()
+
 def updateProduct(id):
     try:
         base_price = request.json['base_price']
@@ -88,7 +88,6 @@ def updateProduct(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-@jwt_required()
 def deleteProduct(id):
     try:
         product = Product.query.filter_by(id=id).first()

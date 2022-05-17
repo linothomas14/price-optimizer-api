@@ -25,12 +25,13 @@ def singleTransform(user):
     data = {
         'id': user.id,
         'name': user.name,
-        'email': user.email
+        'email': user.email,
+        'role' : user.role
     }
     return data
 
 
-@jwt_required()
+
 def show(id):
     try:
         user = User.query.filter_by(id=id).first()
@@ -76,13 +77,16 @@ def login():
         if not user.check_password(password):
             return response.badRequest([], 'Your credentials is invalid')
 
-        data = singleTransform(user)
+        data = {
+            'id' : user.id,
+            'email' : user.email,
+            'role' : user.role}
         access_token = create_access_token(data)
 
-        return response.ok({
-            "data": data,
+        return response.ok(
+            {
             "token": access_token,
-        }, "")
+            }, "")
 
     except Exception as e:
         print(e)
