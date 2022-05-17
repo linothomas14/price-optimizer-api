@@ -13,3 +13,4 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     JWT_SECRET_KEY = str(os.environ.get("JWT_SECRET"))
+    PASSWORD_ADMIN = str(os.environ.get("PASSWORD_ADMIN"))
