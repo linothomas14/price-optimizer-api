@@ -91,3 +91,13 @@ def login():
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
+
+@app.cli.command('db_seed')
+def db_seed():
+    user = User(name="admin", email="admin@gmail.com")
+    user.set_password('password')
+    user.role = 'admin'
+    print("Adding user: %s" % user)
+    db.session.add(user)
+    db.session.commit()
+
