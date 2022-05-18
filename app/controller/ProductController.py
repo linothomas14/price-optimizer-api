@@ -1,5 +1,4 @@
-from email.mime import base
-from flask import jsonify,request
+from flask import request
 from app.model.product import Product
 from app import response, app, db
 import datetime
@@ -65,7 +64,6 @@ def addProduct():
         print(e)
         return response.badRequest('error', 'Bad request')
 
-
 def updateProduct(id):
     try:
         base_price = request.json['base_price']
@@ -105,5 +103,6 @@ def deleteProduct(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
+
 
 
