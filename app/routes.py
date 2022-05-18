@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from app import app, response
-from app.controller import UserController, ProductController
+from app.controller import TransactionController, UserController, ProductController
 from flask_jwt_extended import *
 
 @app.route('/')
@@ -55,7 +55,21 @@ def product_delete(id):
         return response.badRequest('','auth not recognized')
 
     return ProductController.deleteProduct(id)
-    
+
+# Buy Product
+@app.route('/buy/<int:product_id>', methods = ['POST'])
+@jwt_required()
+def product_buy(product_id):
+    user_identity = get_jwt_identity()
+    user_id = user_identity['id']
+    return TransactionController.store(user_id, product_id)
+
+# Get transacition
+@app.route('/transactions/', methods = ['GET'])
+# @jwt_required()
+def get_transaction():
+    return TransactionController.index()
+
 
 # Return True if user role is admin
 @jwt_required()

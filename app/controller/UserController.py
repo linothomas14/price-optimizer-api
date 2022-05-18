@@ -1,8 +1,7 @@
 import os
-from flask import jsonify,request
+from flask import request
 from app.model.user import User
 from app import response, app, db
-import datetime
 from flask_jwt_extended import *
 
 
@@ -30,8 +29,6 @@ def singleTransform(user):
         'role' : user.role
     }
     return data
-
-
 
 def show(id):
     try:
