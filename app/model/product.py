@@ -8,14 +8,12 @@ class Product(db.Model):
     competitor_price = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
+    
 
     def __repr__(self):
         return '<Product {}>'.format(self.name)
     
-    def getById(self):
-        products = Product.query.filter_by(id=self.id).first()
-        if not products :
-            return 1
+
 
         
     

@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from app import app, response
-from app.controller import TransactionController, UserController, ProductController
+from app.controller import TransactionController, UserController, ProductController, CampaignController
 from flask_jwt_extended import *
 
 @app.route('/')
@@ -76,5 +76,32 @@ def get_transaction():
 def checkAuth():
     user_identity = get_jwt_identity()
     return True if user_identity['role'] == 'admin' else False
+
+# Read and add campaign
+@app.route('/campaign', methods = ['GET','POST'])
+def campaign():
+    isAdmin = checkAuth()
+    if isAdmin is False:
+        return response.badRequest('','auth not recognized')
+    if request.method == 'GET':
+        return CampaignController.index()
+    else :
+        return CampaignController.addCampaign()
+
+# Update campaign
+@app.route('/campaign/<int:id>', methods = ['PUT'])
+def campaign_update(id):
+    isAdmin = checkAuth()
+    if isAdmin is False:
+        return response.badRequest('','auth not recognized')
     
+    return CampaignController.updateCampaign(id)
     
+# Delete campaign
+@app.route('/campaign/<int:id>', methods = ['DELETE'])
+def campaign_delete(id):
+    isAdmin = checkAuth()
+    if isAdmin is False:
+        return response.badRequest('','auth not recognized')
+
+    return CampaignController.deleteCampaign(id)
