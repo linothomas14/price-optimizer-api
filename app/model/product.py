@@ -12,10 +12,6 @@ class Product(db.Model):
     def __repr__(self):
         return '<Product {}>'.format(self.name)
     
-    def getById(self):
-        products = Product.query.filter_by(id=self.id).first()
-        if not products :
-            return 1
 
         
     

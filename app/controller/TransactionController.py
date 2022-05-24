@@ -14,7 +14,6 @@ def index():
         print(e)
         return response.badRequest('', e)
 
-
 def transform(products):
     data = []
     for i in products:
@@ -45,7 +44,6 @@ def show(id):
         return response.ok(data, "")
     except Exception as e:
         print(e)
-
 
 def store(user_id, product_id):
     try:

@@ -14,7 +14,6 @@ def index():
         print(e)
         return response.badRequest([], message=e)
 
-
 def transform(users):
     data = []
     for i in users:

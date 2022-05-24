@@ -14,7 +14,6 @@ def index():
         print(e)
         return response.badRequest([], message=e)
 
-
 def transform(products):
     data = []
     for i in products:
@@ -41,7 +40,6 @@ def show(id):
         return response.ok(data, "")
     except Exception as e:
         print(e)
-
 
 def addProduct():
     try:
@@ -78,7 +76,7 @@ def updateProduct(id):
         product.updated_at = datetime.now()
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
-        # db.session.update(product)
+
         db.session.commit()
         return response.addData('', 'update success')
 
@@ -96,8 +94,7 @@ def deleteProduct(id):
 
         db.session.delete(product)
         db.session.commit()
-        # nanti scrap 
-        # product.set_competitor_price(set_competitor_price)
+        
         return response.ok('', 'delete product success')
 
     except Exception as e:

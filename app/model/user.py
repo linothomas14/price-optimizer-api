@@ -15,12 +15,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.name)
     
-    def getById(self):
-        users = User.query.filter_by(email=self.email).first()
-        if not users :
-            return 1
-
-    def set_password(self, password):
+    def set_password(self, password): # admin
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
