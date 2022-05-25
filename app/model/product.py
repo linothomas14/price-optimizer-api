@@ -14,6 +14,9 @@ class Product(db.Model):
         return '<Product {}>'.format(self.name)
     
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> cdbf2f95462842c439484a2a55b316ecca3e0fd3
     
 

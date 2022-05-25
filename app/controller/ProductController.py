@@ -76,9 +76,10 @@ def updateProduct(id):
         product.base_price=base_price
         product.competitor_price = base_price
         product.updated_at = datetime.now()
+
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
-        
+
         db.session.commit()
         return response.addData('', 'update success')
 
