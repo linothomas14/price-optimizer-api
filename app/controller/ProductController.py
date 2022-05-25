@@ -4,6 +4,11 @@ from app import response, db
 import datetime
 from flask_jwt_extended import *
 from datetime import datetime
+from app.model.product import Product
+from app import response, app, db
+import datetime
+from datetime import datetime
+from flask import request
 
 def index():
     try:
@@ -29,8 +34,6 @@ def singleTransform(product):
         'created_at' : product.created_at
     }
     return data
-
-# def showById(id):
 
 def show(id):
     try:
@@ -76,9 +79,10 @@ def updateProduct(id):
         product.base_price=base_price
         product.competitor_price = base_price
         product.updated_at = datetime.now()
+
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
-        
+
         db.session.commit()
         return response.addData('', 'update success')
 
@@ -96,7 +100,8 @@ def deleteProduct(id):
 
         db.session.delete(product)
         db.session.commit()
-        
+        # nanti scrap 
+        # product.set_competitor_price(set_competitor_price)
         return response.ok('', 'delete product success')
 
     except Exception as e:

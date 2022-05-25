@@ -14,6 +14,10 @@ def index():
         print(e)
         return response.badRequest([], message=e)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f2cbdec057c8f438d1d561182a485db7be1011c7
 def transform(users):
     data = []
     for i in users:

@@ -1,5 +1,9 @@
 from flask import request
+<<<<<<< HEAD
 from app.controller import ProductController, UserController
+=======
+from app.controller import ProductController, UserController, VoucherController
+>>>>>>> f2cbdec057c8f438d1d561182a485db7be1011c7
 from app.model.product import Product
 from app.model.transaction import Transaction
 from app import response, db
@@ -14,6 +18,10 @@ def index():
         print(e)
         return response.badRequest('', e)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f2cbdec057c8f438d1d561182a485db7be1011c7
 def transform(products):
     data = []
     for i in products:
@@ -30,7 +38,15 @@ def singleTransform(transaction):
         'product_id' : transaction.product_id,
         'product' :ProductController.singleTransform(transaction.product),
         'user_id' : transaction.user_id,
+<<<<<<< HEAD
         'user': UserController.singleTransform(transaction.user)
+=======
+        'user': UserController.singleTransform(transaction.user),
+        # 'campaign_id' : transaction.campaign_id,
+        # 'campaign' :CampaignController.singleTransform(transaction.product),
+        'voucher_id' : transaction.voucher_id,
+        'voucher': VoucherController.singleTransform(transaction.user)
+>>>>>>> f2cbdec057c8f438d1d561182a485db7be1011c7
     }
     return data
 
@@ -45,6 +61,10 @@ def show(id):
     except Exception as e:
         print(e)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f2cbdec057c8f438d1d561182a485db7be1011c7
 def store(user_id, product_id):
     try:
         user_id = user_id
