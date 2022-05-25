@@ -1,6 +1,6 @@
 from flask import request
 from app.model.product import Product
-from app import response, app, db
+from app import response, db
 import datetime
 from flask_jwt_extended import *
 from datetime import datetime
@@ -29,6 +29,8 @@ def singleTransform(product):
         'created_at' : product.created_at
     }
     return data
+
+# def showById(id):
 
 def show(id):
     try:
@@ -76,7 +78,7 @@ def updateProduct(id):
         product.updated_at = datetime.now()
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
-
+        
         db.session.commit()
         return response.addData('', 'update success')
 
