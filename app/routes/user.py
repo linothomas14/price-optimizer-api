@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from app import app
 from app.controller import UserController
 from flask_jwt_extended import *
@@ -10,7 +10,8 @@ def index():
 # Read all users
 @app.route('/users', methods = ['GET'])
 def user():
-    return UserController.index()
+    page = request.args.get('page',1)
+    return UserController.index(page)
 
 # Read userById
 @app.route('/users/<int:id>', methods = ['GET'])

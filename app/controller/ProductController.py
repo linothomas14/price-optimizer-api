@@ -5,9 +5,11 @@ import datetime
 from flask_jwt_extended import *
 from datetime import datetime
 
-def index():
+def index(page):
     try:
-        products = Product.query.all()
+        offset = (int(page) - 1) * 5
+        products = Product.query.offset(offset).limit(5).all()
+
         data = transform(products)
         return response.ok(data, "")
     except Exception as e:

@@ -5,9 +5,10 @@ from app import response, app, db
 from flask_jwt_extended import *
 
 
-def index():
+def index(page):
     try:
-        users = User.query.all()
+        offset = (int(page) - 1) * 5
+        users = User.query.offset(offset).limit(5).all()
         data = transform(users)
         return response.ok(data, "")
     except Exception as e:
