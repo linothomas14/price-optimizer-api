@@ -9,6 +9,9 @@ class Campaign(db.Model):
     end_date = db.Column(db.DateTime, default=datetime.now, nullable=False)
     every_weekend = db.Column(db.Boolean, default=False, nullable=False)
     is_active = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
+    
     promo = db.relationship('Promo', backref='campaign', lazy = True)
 
     def __repr__(self) -> str:

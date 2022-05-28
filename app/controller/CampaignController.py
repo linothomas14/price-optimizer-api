@@ -30,7 +30,10 @@ def singleTransform(campaign):
         'end_date' : campaign.end_date,
         'every_weekend' : campaign.every_weekend,
         'is_active' : campaign.is_active,
-        'promo' : PromoController.transform(campaign.promo)
+        'promo' : PromoController.transform(campaign.promo),
+        'created_at' : campaign.created_at,
+        'updated_at' : campaign.updated_at
+
     }
     return data
 

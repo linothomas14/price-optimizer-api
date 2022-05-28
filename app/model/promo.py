@@ -1,5 +1,5 @@
 from app import db
-
+from datetime import datetime
 from app.model.campaign import Campaign
 
 class Promo(db.Model):
@@ -8,8 +8,9 @@ class Promo(db.Model):
     discount = db.Column(db.Float, nullable=False)
     campaign_id = db.Column(db.Integer ,db.ForeignKey(Campaign.id))
     category_name = db.Column(db.String(200), nullable=False)
-    # campaign = db.relationship('Voucher', backref='campaign', lazy = True)
-
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
+    
     def __repr__(self) -> str:
         return '<Promo {}>'.format(self.name)
     

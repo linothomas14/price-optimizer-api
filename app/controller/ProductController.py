@@ -1,7 +1,6 @@
 from flask import request
 from app.model.product import Product
 from app import response, db
-import datetime
 from flask_jwt_extended import *
 from datetime import datetime
 
@@ -27,7 +26,8 @@ def singleTransform(product):
         'name': product.name,
         'base_price': product.base_price,
         'competitor_price' : product.competitor_price,
-        'created_at' : product.created_at
+        'created_at' : product.created_at,
+        'updated_at' : product.updated_at,
     }
     return data
 

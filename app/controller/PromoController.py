@@ -3,6 +3,7 @@ from app import response, db
 from app.model.campaign import Campaign
 from app.model.promo import Promo
 from flask_jwt_extended import *
+from datetime import datetime
 
 def index():
     try:
@@ -27,7 +28,10 @@ def singleTransform(promo):
         'name': promo.name,
         'discount': promo.discount,
         'campaign_id' : promo.campaign_id,
-        'category_name' : promo.category_name
+        'category_name' : promo.category_name,
+        'created_at' : promo.created_at,
+        'updated_at' : promo.updated_at
+
     }
     return data
 
@@ -95,6 +99,7 @@ def updatePromo(id):
         promo.discount=discount
         promo.name=name
         promo.category_name=category_name
+        promo.updated_at = datetime.now()
         
         db.session.commit()
 
