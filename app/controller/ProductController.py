@@ -9,7 +9,6 @@ def index(page):
     try:
         offset = (int(page) - 1) * 5
         products = Product.query.offset(offset).limit(5).all()
-
         data = transform(products)
         return response.ok(data, "")
     except Exception as e:
@@ -39,7 +38,6 @@ def show(id):
         product = Product.query.filter_by(id=id).first()
         if not product:
             return response.badRequest([], 'product not found')
-
         data = singleTransform(product)
         return response.ok(data, "")
     except Exception as e:
@@ -51,9 +49,9 @@ def addProduct():
         base_price = request.json['base_price']
         product = Product.query.filter_by(name=name).first()
 
-        # Check if product already exits
+        # Check if product already exist
         if product :
-            return response.badRequest('', 'product already exits')
+            return response.badRequest('', 'product already exist')
 
         product = Product(name=name, base_price=base_price, competitor_price=base_price)
         # nanti scrap 

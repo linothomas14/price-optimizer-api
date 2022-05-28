@@ -16,13 +16,6 @@ def product():
             return response.badRequest('','auth not recognized')
         return ProductController.addProduct()
 
-# @app.route('/products?=page', methods = ['GET'])
-# def getProductPagination(page):
-#     isAdmin = checkAuth()
-#     if isAdmin is False:
-#         return response.badRequest('','auth not recognized')
-#     return ProductController.index(page)
-
 # CRUD product
 @app.route('/products/<int:id>', methods = ['GET','PUT', 'DELETE'])
 def products(id):
