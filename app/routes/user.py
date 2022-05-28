@@ -17,13 +17,3 @@ def user():
 @app.route('/users/<int:id>', methods = ['GET'])
 def user_get(id):
     return UserController.show(id)
-
-# User Register
-@app.route('/users/register', methods = ['POST'])
-def user_register():
-    return UserController.register()
-
-# User Login
-@app.route('/users/login', methods = ['POST'])
-def user_login():
-    return UserController.login()

@@ -18,7 +18,6 @@ def transform(products):
     data = []
     for i in products:
         data.append(singleTransform(i))
-    print(data)
     return data
 
 def singleTransform(transaction):
