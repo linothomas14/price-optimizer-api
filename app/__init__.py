@@ -10,5 +10,5 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-from app.model import user,product,transaction, campaign
-from app.routes import user,product,transaction, campaign
+from app.model import user,product,transaction, campaign, promo
+from app.routes import user,product,transaction, campaign, promo
