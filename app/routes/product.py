@@ -11,17 +11,11 @@ def product():
         page = request.args.get('page', 1)
         return ProductController.index(page)
     else :
-        isAdmin = checkAuth()
-        if isAdmin is False:
-            return response.badRequest('','auth not recognized')
         return ProductController.addProduct()
 
 # CRUD product
 @app.route('/products/<int:id>', methods = ['GET','PUT', 'DELETE'])
 def products(id):
-    isAdmin = checkAuth()
-    if isAdmin is False:
-        return response.badRequest('','auth not recognized')
     if request.method == 'PUT':
         return ProductController.updateProduct(id)
     if request.method == 'DELETE':
