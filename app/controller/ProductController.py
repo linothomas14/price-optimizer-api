@@ -25,6 +25,7 @@ def singleTransform(product):
         'id': product.id,
         'name': product.name,
         'base_price': product.base_price,
+        'product_category': product.product_category,
         'competitor_price' : product.competitor_price,
         'created_at' : product.created_at,
         'updated_at' : product.updated_at,
@@ -47,13 +48,14 @@ def addProduct():
     try:
         name = request.json['name']
         base_price = request.json['base_price']
+        product_category = request.json['product_category']
         product = Product.query.filter_by(name=name).first()
 
         # Check if product already exist
         if product :
             return response.badRequest('', 'product already exist')
 
-        product = Product(name=name, base_price=base_price, competitor_price=base_price)
+        product = Product(name=name, base_price=base_price, product_category=product_category, competitor_price=base_price)
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
         db.session.add(product)
