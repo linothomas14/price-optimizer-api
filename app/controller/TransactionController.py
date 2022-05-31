@@ -23,13 +23,9 @@ def transform(products):
 def singleTransform(transaction):
     data = {
         'id': transaction.id,
-        'created_at':transaction.created_at,
-        'amount' : transaction.amount,
-        'total_price' : transaction.total_price,
-        'product_id' : transaction.product_id,
-        'product' :ProductController.singleTransform(transaction.product),
-        'user_id' : transaction.user_id,
-        'user': UserController.singleTransform(transaction.user)
+        'product_category_name' : transaction.product_category_name,
+        'sales' : transaction.sales,
+        'price' : transaction.price,
     }
     return data
 

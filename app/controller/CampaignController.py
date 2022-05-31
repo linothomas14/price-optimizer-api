@@ -150,6 +150,15 @@ def changeActive(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-
+'''
+def predictDemand(id_campaign):
+    try:
+        #Ambil discount, startDate dan endDate, category product disetiap promo
+        #Ambil history transaksi
+        #jalanin ML
+        #output JSON
+    except Exception as e:
+        print(e)
+'''
 
 
