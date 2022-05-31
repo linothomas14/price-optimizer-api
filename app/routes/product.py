@@ -9,12 +9,13 @@ from app.routes.auth import checkAuth
 def product():
     if request.method == 'GET':
         page = request.args.get('page', 1)
-        return ProductController.index(page)
+        category = request.args.get('category', "all")
+        return ProductController.index(page, category)
     else :
         return ProductController.addProduct()
 
 # CRUD product
-@app.route('/products/<int:id>', methods = ['GET','PUT', 'DELETE'])
+@app.route('/products/<string:id>', methods = ['GET','PUT', 'DELETE'])
 def products(id):
     if request.method == 'PUT':
         return ProductController.updateProduct(id)

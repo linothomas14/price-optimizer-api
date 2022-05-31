@@ -3,13 +3,21 @@ from app.model.product import Product
 from app import response, db
 from flask_jwt_extended import *
 from datetime import datetime
+import uuid
 
-def index(page):
+
+def index(page,category):
     try:
         offset = (int(page) - 1) * 5
-        products = Product.query.offset(offset).limit(5).all()
+        if category == "all":
+            print("else")
+            products = Product.query.offset(offset).limit(5).all()
+        else:
+            print("else")
+            products = Product.query.filter_by(product_category=category).offset(offset).limit(5).all()
         data = transform(products)
         return response.ok(data, "")
+
     except Exception as e:
         print(e)
         return response.badRequest([], message=e)
@@ -54,8 +62,8 @@ def addProduct():
         # Check if product already exist
         if product :
             return response.badRequest('', 'product already exist')
-
-        product = Product(name=name, base_price=base_price, product_category=product_category, competitor_price=base_price)
+        id = uuid.uuid4()
+        product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price)
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
         db.session.add(product)
@@ -76,12 +84,9 @@ def updateProduct(id):
             return response.badRequest('', 'product not found')
 
         product.base_price=base_price
-        product.competitor_price = base_price
         product.updated_at = datetime.now()
-        # nanti scrap 
-        # product.set_competitor_price(set_competitor_price)
-        
         db.session.commit()
+        
         return response.addData('', 'update success')
 
     except Exception as e:
@@ -104,6 +109,3 @@ def deleteProduct(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
-
-
-

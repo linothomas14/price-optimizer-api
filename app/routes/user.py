@@ -14,6 +14,6 @@ def user():
     return UserController.index(page)
 
 # Read userById
-@app.route('/users/<int:id>', methods = ['GET'])
+@app.route('/users/<string:id>', methods = ['GET'])
 def user_get(id):
     return UserController.show(id)
