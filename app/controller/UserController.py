@@ -25,6 +25,7 @@ def singleTransform(user):
     data = {
         'id': user.id,
         'name': user.name,
+        'voucher': user.voucher
     }
     return data
 

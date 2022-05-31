@@ -4,10 +4,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(230), nullable=False)
+    name = db.Column(db.String(230), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
-    
+    voucher = db.relationship("Voucher", backref="user")
+
     def __repr__(self):
         return '<User {}>'.format(self.name)
     
