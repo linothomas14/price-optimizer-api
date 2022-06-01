@@ -15,6 +15,8 @@ class Product(db.Model):
 
     def __repr__(self):
         return '<Product {}>'.format(self.name)
+
+    
     
 
         
