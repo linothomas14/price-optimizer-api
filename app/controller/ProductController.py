@@ -63,7 +63,10 @@ def addProduct():
         if product :
             return response.badRequest('', 'product already exist')
         id = uuid.uuid4()
-        product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price)
+        discount_category = Product.query.filter_by(product_category=product_category).first().discount
+        list_price= base_price - (base_price * discount_category)
+        product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price, list_price=list_price)
+        
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
         db.session.add(product)
@@ -84,6 +87,7 @@ def updateProduct(id):
             return response.badRequest('', 'product not found')
 
         product.base_price=base_price
+        product.list_price= base_price - (base_price * product.discount)
         product.updated_at = datetime.now()
         db.session.commit()
         
@@ -109,3 +113,17 @@ def deleteProduct(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
+
+
+def resetDB():
+    try:
+        products = Product.query.all()
+        for product in products:
+            # product.final_price = product.base_price - (product.base_price * product.discount)
+            product.final_price = product.base_price
+            product.discount = 0
+        db.session.commit()
+        return response.ok('', 'OK')
+    except Exception as e:
+        print(e)
+        return response.ok('error', 'Bad Request')

@@ -1,11 +1,15 @@
 from flask import jsonify, request
 from app import app
-from app.controller import UserController
+from app.controller import UserController, ProductController
 from flask_jwt_extended import *
 
 @app.route('/')
 def index():
     return jsonify({"msg" : "This is price-optimizer-api"})
+
+# @app.route('/reset-db')
+# def index():
+#     return ProductController.resetDB()
 
 # Read all users
 @app.route('/users', methods = ['GET'])

@@ -4,6 +4,8 @@ from app.model.campaign import Campaign
 from app.controller import PromoController
 from flask_jwt_extended import *
 
+from app.model.product import Product
+
 def index():
     try:
         campaign = Campaign.query.all()
@@ -160,5 +162,37 @@ def predictDemand(id_campaign):
     except Exception as e:
         print(e)
 '''
+
+def applyCampaign(id):
+    try:
+        # Search campaign
+        campaign = Campaign.query.filter_by(id=id).first()
+
+        # get promos in campaign
+        for promo in campaign.promo:
+            products = Product.query.filter_by(product_category = promo.category_name).all()
+
+            #check if category name is in products
+            if not products :
+                continue
+
+            # edit one by one product in products(by_category)
+            for product in products :
+                product.discount = promo.discount
+
+                # check if discount final price is higher than max discount per promo
+                if product.base_price * product.discount > promo.max_discount:
+                    product.final_price = product.base_price - promo.max_discount 
+                else :
+                    product.final_price = product.base_price - (product.base_price * product.discount)
+
+                
+        
+        db.session.commit()
+            
+        return response.ok('', 'OK')
+    except Exception as e:
+        print(e)
+        return response.badRequest('error', 'Bad request')
 
 
