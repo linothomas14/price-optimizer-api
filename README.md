@@ -31,8 +31,8 @@ To run this project, follow these steps:
 
 
 ## API Documentation 
-
-The RESTful API
+*Still work on progress*
+### List of Endpoints
 * [User](#user)
     * [GET /users](#get-users)
 * [Product](#product)
@@ -40,10 +40,10 @@ The RESTful API
     * [POST /products](#post-products)
     * [GET /products`<int:id>`](#get-productsintid)
     * [PUT /products`<int:id>`](#put-productsintid)
+    * [DELETE /products`<int:id>`](#delete-productsintid)
 * [Campaign](#campaign)
 * [Promo](#promo)
-* [Campaign](#campaign)
-* [Promo](#promo)
+* [Voucher](#voucher)
 
 
 ## User
@@ -55,11 +55,32 @@ Response body  :
 
 ```json 
 {
-"message": "",
+    "message": "",
     "values": [
         {
-            "id": 1,
-            "name": "admin"
+            "id": "000161a058600d5901f007fab4c27140",
+            "name": "",
+            "voucher": []
+        },
+        {
+            "id": "0001fd6190edaaf884bcaf3d49edf079",
+            "name": "",
+            "voucher": []
+        },
+        {
+            "id": "000379cdec625522490c315e70c7a9fb",
+            "name": "",
+            "voucher": []
+        },
+        {
+            "id": "0004164d20a9e969af783496f3408652",
+            "name": "",
+            "voucher": []
+        },
+        {
+            "id": "000419c5494106c306a97b5635748086",
+            "name": "",
+            "voucher": []
         }
     ]
 }
@@ -124,13 +145,35 @@ Response body:
 `status code : 201 (CREATED)`
 
 ```
-{
-    "message": "update success",
-    "values": ""
-}
+coming soon
 ```
 
-### Status Code
+### DELETE /products`<int:id>`
+
+Response body:
+
+`status code : 200 (OK)`
+
+```
+coming soon
+```
+
+## Campaign
+### GET /campaigns
+
+Response body:
+
+`status code : 200 (OK)`
+```json
+coming soon
+```
+
+## Promo
+
+## Voucher
+
+
+## Status Code
 returns the following status codes in its API:
 
 | Status Code | Description |
