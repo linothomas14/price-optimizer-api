@@ -28,6 +28,7 @@ def singleTransform(promo):
         'name': promo.name,
         'discount': promo.discount,
         'campaign_id' : promo.campaign_id,
+        'max_discount' : promo.max_discount,
         'category_name' : promo.category_name,
         'created_at' : promo.created_at,
         'updated_at' : promo.updated_at
@@ -56,7 +57,7 @@ def addPromo():
         discount = request.json['discount']
         category_name  = request.json['category_name']
         campaign_id = request.json['campaign_id']
-        
+        max_discount = request.json['max_discount']
         campaign = Campaign.query.filter_by(id=campaign_id).first()
 
         # Check if campaign doesnt exist
@@ -73,6 +74,7 @@ def addPromo():
                     discount=discount,
                     category_name=category_name,
                     campaign_id=campaign_id,
+                    max_discount=max_discount
                     )
 
         db.session.add(promo)
@@ -89,7 +91,7 @@ def updatePromo(id):
         name = request.json['name']
         discount = request.json['discount']
         category_name  = request.json['category_name']
-
+        max_discount = request.json['max_discount']
         promo = Promo.query.filter_by(id=id).first()
 
         # Check if promo not found
@@ -98,6 +100,7 @@ def updatePromo(id):
 
         promo.discount=discount
         promo.name=name
+        promo.max_discount = max_discount
         promo.category_name=category_name
         promo.updated_at = datetime.now()
         

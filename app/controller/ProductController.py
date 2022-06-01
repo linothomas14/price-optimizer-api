@@ -114,11 +114,14 @@ def deleteProduct(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-def assignFinalPriceProduct():
+
+def resetDB():
     try:
         products = Product.query.all()
         for product in products:
-            product.final_price = product.base_price - (product.base_price * product.discount)
+            # product.final_price = product.base_price - (product.base_price * product.discount)
+            product.final_price = product.base_price
+            product.discount = 0
         db.session.commit()
         return response.ok('', 'OK')
     except Exception as e:
