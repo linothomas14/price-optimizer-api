@@ -2,7 +2,6 @@ import os
 from flask import request
 from app.model.user import User
 from app import response, app, db
-from flask_jwt_extended import *
 
 
 def index(page):

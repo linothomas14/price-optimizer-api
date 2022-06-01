@@ -4,10 +4,9 @@ from app.model.voucher_template import TemplateVoucher
 from flask_jwt_extended import *
 from datetime import datetime
 
-def index(page):
+def index():
     try:
-        offset = (int(page) - 1) * 5
-        templateVoucher = TemplateVoucher.query.offset(offset).limit(5).all()
+        templateVoucher = TemplateVoucher.query.all()
         data = transform(templateVoucher)
         return response.ok(data, "")
     except Exception as e:
@@ -48,8 +47,6 @@ def addVoucher():
         name = request.json['name']
         discount_percent = request.json['discount_percent']
         budget = request.json['budget']
-        created_at = request.json['created_at']
-        update_at = request.json['update_at']
         
         templateVoucher = TemplateVoucher.query.filter_by(name=name).first()
 
@@ -60,8 +57,6 @@ def addVoucher():
         templateVoucher = TemplateVoucher(name=name, 
                             discount_percent=discount_percent,
                             budget=budget, 
-                            created_at=created_at, 
-                            update_at=update_at,
                             )
 
         db.session.add(templateVoucher)
@@ -78,8 +73,6 @@ def updateVoucher(id):
         name = request.json['name']
         discount_percent = request.json['discount_percent']
         budget = request.json['budget']
-        created_at = request.json['created_at']
-        update_at = request.json['update_at']
         
         templateVoucher = TemplateVoucher.query.filter_by(id=id).first()
 
@@ -91,7 +84,6 @@ def updateVoucher(id):
         templateVoucher.name=name
         templateVoucher.discount_percent=discount_percent
         templateVoucher.budget=budget
-        templateVoucher.created_at=created_at
         templateVoucher.update_at=datetime.now()
         db.session.commit()
 

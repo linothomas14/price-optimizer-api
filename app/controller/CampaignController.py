@@ -2,9 +2,8 @@ from flask import request
 from app import response, db
 from app.model.campaign import Campaign
 from app.controller import PromoController
-from flask_jwt_extended import *
-
 from app.model.product import Product
+from app.model.promo import Promo
 
 def index():
     try:
@@ -38,7 +37,6 @@ def singleTransform(campaign):
 
     }
     return data
-
 
 def show(id):
     try:
@@ -130,7 +128,6 @@ def deleteCampaign(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-
 def changeActive(id):
     try:
         is_active = request.json['is_active']
@@ -163,36 +160,34 @@ def predictDemand(id_campaign):
         print(e)
 '''
 
-def applyCampaign(id):
+def applyCampaign():
     try:
+        promos = []
+
         # Search campaign
-        campaign = Campaign.query.filter_by(id=id).first()
+        campaigns = Campaign.query.filter_by(is_active=True).all()
+        for campaign in campaigns:
+            # get promos in campaign
+            for promo in campaign.promo:
+                products = Product.query.filter_by(product_category = promo.category_name).all()
+                promos.append(promo)
+                # check if category name is in products
+                if not products :
+                    continue
 
-        # get promos in campaign
-        for promo in campaign.promo:
-            products = Product.query.filter_by(product_category = promo.category_name).all()
+                # edit one by one product in products(by_category)
+                for product in products :
+                    product.discount += promo.discount
+                    
+                    # check if discount final price is higher than max discount per promo
+                    if product.base_price * product.discount > promo.max_discount:
+                        product.final_price = product.base_price - promo.max_discount 
+                    else :
+                        product.final_price = product.base_price - (product.base_price * product.discount)
 
-            #check if category name is in products
-            if not products :
-                continue
-
-            # edit one by one product in products(by_category)
-            for product in products :
-                product.discount = promo.discount
-
-                # check if discount final price is higher than max discount per promo
-                if product.base_price * product.discount > promo.max_discount:
-                    product.final_price = product.base_price - promo.max_discount 
-                else :
-                    product.final_price = product.base_price - (product.base_price * product.discount)
-
-                
-        
         db.session.commit()
-            
+        print(promos)
         return response.ok('', 'OK')
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
-
-

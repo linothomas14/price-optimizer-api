@@ -25,6 +25,6 @@ def campaigns(id):
 def change_active(id):
     return CampaignController.changeActive(id)
 
-@app.route('/campaigns/<int:id>/apply-campaign', methods=['PUT'])
-def apply_campaign(id):
-    return CampaignController.applyCampaign(id)
+@app.route('/campaigns/apply-campaign', methods=['PUT'])
+def apply_campaign():
+    return CampaignController.applyCampaign()

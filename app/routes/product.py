@@ -1,8 +1,6 @@
 from flask import jsonify, request
 from app import app, response
 from app.controller import ProductController
-from flask_jwt_extended import *
-from app.routes.auth import checkAuth
 
 # Read and add products
 @app.route('/products', methods = ['GET','POST'])
