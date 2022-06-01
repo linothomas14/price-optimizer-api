@@ -9,12 +9,14 @@ class Product(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now)
     base_price = db.Column(db.Float, nullable=False)
     competitor_price = db.Column(db.Integer, default=0)
-    discount = db.Column(db.Float, nullable=False, default=0)
-    list_price = db.Column(db.Float, nullable=False)
+    discount = db.Column(db.Float, nullable=True, default=0)
+    final_price = db.Column(db.Float, nullable=True)
     
 
     def __repr__(self):
         return '<Product {}>'.format(self.name)
+
+    
     
 
         

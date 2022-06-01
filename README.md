@@ -3,14 +3,14 @@
 This API is intended for the purposes of our capstone project at Bangkit Academy 2022 to solve the study case provided by Traveloka Singapore Company
 
 ## Table of Contents
----
+
 * [Setup](#setup)
 * [Routes](#routes)
-* [Documentation](#documentation)
+* [API Documentation](#api-documentation)
 * [Contributor](#contributor)
 
 ## Setup
----
+
 To run this project, follow these steps:
 
 - run `pip install -r requirements.txt` to install dependencies
@@ -21,7 +21,7 @@ To run this project, follow these steps:
 - run `flask run`
 
 ## Routes
----
+
 *Still work on progress*
 | HTTP METHOD | POST            | GET       | PUT         | DELETE |
 | ----------- | :-------: | :------:  | :------:  | :------: |
@@ -31,7 +31,7 @@ To run this project, follow these steps:
 
 
 ## API Documentation 
----
+
 The RESTful API
 * [User](#user)
     * [GET /users](#get-users)
@@ -47,7 +47,7 @@ The RESTful API
 
 
 ## User
---- 
+
 ### GET /users
 Response body  :
 
@@ -67,7 +67,7 @@ Response body  :
 
 
 ## Product
----
+
 ### GET /products
 
 Response body:
@@ -142,7 +142,7 @@ returns the following status codes in its API:
 <br>
 
 ## Contributor
----
+
 1. Diva Ratna Kumala Ardellia (C2006F0502)
 2. Sarah Uli Octavia          (C7006F0503)
 3. Yulyano Thomas Djaya       (C20090F998)
