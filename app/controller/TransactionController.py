@@ -1,9 +1,7 @@
 from flask import request
-from app.controller import ProductController, UserController
 from app.model.product import Product
 from app.model.transaction import Transaction
 from app import response, db
-from flask_jwt_extended import *
 
 def index():
     try:

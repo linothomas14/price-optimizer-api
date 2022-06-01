@@ -1,7 +1,6 @@
 from flask import request
 from app.model.product import Product
 from app import response, db
-from flask_jwt_extended import *
 from datetime import datetime
 import uuid
 

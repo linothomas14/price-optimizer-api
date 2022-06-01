@@ -2,7 +2,6 @@ from flask import request
 from app import response, db
 from app.model.campaign import Campaign
 from app.model.promo import Promo
-from flask_jwt_extended import *
 from datetime import datetime
 
 def index():
