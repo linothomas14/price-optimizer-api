@@ -10,7 +10,7 @@ class Product(db.Model):
     base_price = db.Column(db.Float, nullable=False)
     competitor_price = db.Column(db.Integer, default=0)
     discount = db.Column(db.Float, nullable=False, default=0)
-    list_price = db.Column(db.Float, nullable=False)
+    final_price = db.Column(db.Float, nullable=False)
     
 
     def __repr__(self):
