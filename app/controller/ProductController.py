@@ -62,10 +62,14 @@ def addProduct():
         if product :
             return response.badRequest('', 'product already exist')
         id = uuid.uuid4()
-        discount_category = Product.query.filter_by(product_category=product_category).first().discount
-        final_price= base_price - (base_price * discount_category)
-        product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price, final_price=final_price)
-        
+        discount_category = Product.query.filter_by(product_category=product_category).first()
+        print(discount_category)
+        if discount_category :
+            final_price= base_price - (base_price * discount_category.discount)
+            product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price, final_price=final_price)
+        else :
+            final_price = base_price
+            product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price, final_price=final_price)
         # nanti scrap 
         # product.set_competitor_price(set_competitor_price)
         db.session.add(product)
@@ -90,7 +94,7 @@ def updateProduct(id):
         product.updated_at = datetime.now()
         db.session.commit()
         
-        return response.addData('', 'update success')
+        return response.addData('', 'successfully updated')
 
     except Exception as e:
         print(e)
@@ -107,7 +111,7 @@ def deleteProduct(id):
         db.session.delete(product)
         db.session.commit()
         
-        return response.ok('', 'delete product success')
+        return response.ok('', 'product deleted')
 
     except Exception as e:
         print(e)
