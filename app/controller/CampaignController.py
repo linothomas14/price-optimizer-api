@@ -22,6 +22,15 @@ def transform(campaign):
         data.append(singleTransform(i))
     return data
 
+def PromoSingleTransform(promo):
+    data = {
+        'total_discount': promo.discount,
+        'total_max_discount' : promo.max_discount,
+        'category_name' : promo.category_name,
+
+    }
+    return data
+
 def singleTransform(campaign):
     data = {
         'id': campaign.id,
@@ -131,18 +140,55 @@ def deleteCampaign(id):
 def changeActive(id):
     try:
         is_active = request.json['is_active']
-        campaign =Campaign.query.filter_by(id=id).first()
+        campaigns =Campaign.query.filter_by(id=id).first()
 
         # Check if campaign not found
-        if not campaign :
+        if not campaigns :
             return response.badRequest('', 'campaign not found')
 
-        campaign.is_active=is_active
-        db.session.commit()
-
+        if campaigns.is_active == is_active :
+            return response.badRequest('', 'already same status')
+        campaigns.is_active=is_active
+        
+        
+        # print(campaign['discount'])
         if is_active is True:
+
+            campaign = getPromoCampaignById(id)
+
+            for cat_name, promo in zip(campaign['category_name'],campaign['discount']):
+
+                products = Product.query.filter_by(product_category = cat_name).all()
+
+                for product in products:
+                    
+                    product.experiment_discount += promo['total_discount']
+                    if product.experiment_discount >= 1:
+                        return response.badRequest('', 'Discount reach 100%')
+
+                    product.experiment_price -= getDiffPrice(product.base_price,
+                                     promo['total_discount'], 
+                                    promo['total_max_discount'])
+                                    
+            db.session.commit()
+
             return response.addData('', 'Campaign Turned ON')
+        
         else :
+            campaign = getPromoCampaignById(id)
+            for cat_name, promo in zip(campaign['category_name'],campaign['discount']):
+                print('category ',cat_name,'total max discount = ', promo['total_max_discount'])
+                products = Product.query.filter_by(product_category = cat_name).all()
+                for product in products:
+                    product.experiment_discount -= promo['total_discount']
+                    
+                    # STUCK AT THIS !!!!
+                    
+                    product.experiment_price += getDiffPrice(product.base_price,
+                                    promo['total_discount'], 
+                                    promo['total_max_discount'])
+
+            db.session.commit()
             return response.addData('', 'Campaign Turned OFF')
 
     except Exception as e:
@@ -162,32 +208,102 @@ def predictDemand(id_campaign):
 
 def applyCampaign():
     try:
-        promos = []
-
-        # Search campaign
-        campaigns = Campaign.query.filter_by(is_active=True).all()
-        for campaign in campaigns:
-            # get promos in campaign
-            for promo in campaign.promo:
-                products = Product.query.filter_by(product_category = promo.category_name).all()
-                promos.append(promo)
-                # check if category name is in products
-                if not products :
-                    continue
-
-                # edit one by one product in products(by_category)
-                for product in products :
-                    product.discount += promo.discount
-                    
-                    # check if discount final price is higher than max discount per promo
-                    if product.base_price * product.discount > promo.max_discount:
-                        product.final_price = product.base_price - promo.max_discount 
-                    else :
-                        product.final_price = product.base_price - (product.base_price * product.discount)
-
+   
+        db.session.query(Product).update({Product.final_price: Product.experiment_price, Product.discount : Product.experiment_discount})
         db.session.commit()
-        print(promos)
-        return response.ok('', 'OK')
+        # print(promos)
+        return response.ok('', 'Success')
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
+
+def getAllPromoActive():
+    category_name = []
+    promos = []
+    # Search campaign
+    campaigns = Campaign.query.filter_by(is_active=True).all()
+    for campaign in campaigns:
+        # get promos in campaign
+        for promo in campaign.promo:
+            # get category name of active promo
+
+            if promo.category_name not in category_name :
+                category_name.append(promo.category_name)
+                promos.append(PromoSingleTransform(promo))
+            else :
+                for a in promos :
+
+                    if promo.category_name == a['category_name'] :
+                        a['total_max_discount'] += promo.max_discount
+                        a['total_discount'] += promo.discount
+    result = {
+        'category_name' : category_name,
+        'discount' : promos
+    }
+    return result
+
+def getPromoCampaignById(id):
+
+    category_name = []
+    promos = []
+    # Search campaign
+    campaign = Campaign.query.filter_by(id=id).first()
+    # get promos in campaign
+    for promo in campaign.promo:
+        # get category name of active promo
+
+        if promo.category_name not in category_name :
+            category_name.append(promo.category_name)
+            promos.append(PromoSingleTransform(promo))
+        else :
+            for a in promos :
+
+                if promo.category_name == a['category_name'] :
+                    a['total_max_discount'] += promo.max_discount
+                    a['total_discount'] += promo.discount
+    result = {
+        'category_name' : category_name,
+        'discount' : promos
+    }
+    return result
+
+def getFinalProduct():
+    data_products = []
+    category_products = []
+    promos = getAllPromoActive()
+    for promo in promos:
+        products = Product.query.filter_by(product_category = promo['category_name']).all()
+
+        category_products.append(promo['category_name'])
+        # check if category name is in products
+        
+        if not products :
+            continue
+    
+        # edit one by one product in products(by_category)
+        for product in products :
+            product.discount = promo['total_discount']
+            
+            # check if discount final price is higher than max discount per promo
+            product.final_price = applyDiscount(product.base_price,
+                                                product.discount, 
+                                                promo['total_max_discount'])
+
+            data_products.append(product)
+
+    result = {
+        'product' : data_products,
+        'category' : category_products
+    }
+    return result
+
+def applyDiscount(base_price,discount,max_discount):
+    if base_price * discount > max_discount:
+        final_price = base_price - max_discount 
+    else :
+        final_price = base_price - (base_price * discount)
+    return final_price
+
+def getDiffPrice(base_price,discount,max_discount):
+    diffPrice = base_price * discount
+    return diffPrice if diffPrice < max_discount else max_discount
