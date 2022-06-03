@@ -29,5 +29,5 @@ def apply_campaign():
     return CampaignController.applyCampaign()
 
 @app.route('/campaigns/predict-demand', methods=['GET'])
-def apply_campaign():
+def predict_demand():
     return CampaignController.predictDemand()
