@@ -4,6 +4,8 @@ from app.model.campaign import Campaign
 from app.controller import PromoController
 from app.model.product import Product
 from app.model.promo import Promo
+from app.model.transaction import Transaction
+from app.controller.utils import demand_estimator 
 
 def index():
     try:
@@ -134,8 +136,7 @@ def changeActive(id):
         campaign =Campaign.query.filter_by(id=id).first()
 
         # Check if campaign not found
-        if not campaign :
-            return response.badRequest('', 'campaign not found')
+        if not campaign : return response.badRequest('', 'campaign not found')
 
         campaign.is_active=is_active
         db.session.commit()
@@ -149,16 +150,28 @@ def changeActive(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-'''
-def predictDemand(id_campaign):
+def predictDemand():
     try:
-        #Ambil discount, startDate dan endDate, category product disetiap promo
-        #Ambil history transaksi
-        #jalanin ML
-        #output JSON
+        forecast = {}
+        campaigns = Campaign.query.filter_by(is_active=True).all()
+
+        category_discounts = {} 
+        for campaign in campaigns:
+            for promo in campaign.promo:
+                category_discounts[promo.category_name] = category_discounts.get(promo.category_name, 0) + promo.discount
+
+        if len(category_discounts)==0:
+            return response.ok('No active discounts', 'OK')
+
+        for category, discount in category_discounts.items():
+            history = Transaction.query.filter_by(product_category_name=category).all()
+            sales = demand_estimator.estimate(history, discount)
+            forecast[category] = sales 
+
+        return response.ok(forecast, 'OK')
     except Exception as e:
         print(e)
-'''
+        return response.badRequest('error', 'Bruh moment')
 
 def applyCampaign():
     try:
