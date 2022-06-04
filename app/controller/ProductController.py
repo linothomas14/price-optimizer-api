@@ -61,11 +61,19 @@ def addProduct():
         # Check if product already exist
         if product :
             return response.badRequest('', 'product already exist')
+        
         id = uuid.uuid4()
         discount_category = Product.query.filter_by(product_category=product_category).first()
         if discount_category :
             final_price= base_price - (base_price * discount_category.discount)
-            product = Product(id=id, name=name, base_price=base_price, product_category=product_category, competitor_price=base_price,experiment_price=final_price, final_price=final_price)
+            product = Product(id=id, name=name, 
+                              base_price=base_price, 
+                              product_category=product_category,
+                              discount=discount_category.discount,
+                              experiment_discount= discount_category.experiment_discount,
+                              competitor_price=base_price,
+                              experiment_price=final_price, 
+                              final_price=final_price)
         else :
             final_price = base_price
             product = Product(id=id, name=name, base_price=base_price, product_category=product_category,experiment_price=final_price, competitor_price=base_price, final_price=final_price)

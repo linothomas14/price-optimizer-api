@@ -146,19 +146,19 @@ def changeActive(id):
         if not campaigns :
             return response.badRequest('', 'campaign not found')
 
+        # Check if campaign already active
         if campaigns.is_active == is_active :
             return response.badRequest('', 'already same status')
+        
         campaigns.is_active=is_active
         
-        
-        # print(campaign['discount'])
+
         if is_active is True:
 
             campaign = getPromoCampaignById(id)
 
-            for cat_name, promo in zip(campaign['category_name'],campaign['discount']):
-
-                products = Product.query.filter_by(product_category = cat_name).all()
+            for promo in campaign:
+                products = Product.query.filter_by(product_category = promo['category_name']).all()
 
                 for product in products:
                     
@@ -176,9 +176,9 @@ def changeActive(id):
         
         else :
             campaign = getPromoCampaignById(id)
-            for cat_name, promo in zip(campaign['category_name'],campaign['discount']):
-                print('category ',cat_name,'total max discount = ', promo['total_max_discount'])
-                products = Product.query.filter_by(product_category = cat_name).all()
+            for  promo in campaign:
+                # print('category ',cat_name,'total max discount = ', promo['total_max_discount'])
+                products = Product.query.filter_by(product_category = promo['category_name']).all()
                 for product in products:
                     product.experiment_discount -= promo['total_discount']
                     
@@ -211,7 +211,6 @@ def applyCampaign():
    
         db.session.query(Product).update({Product.final_price: Product.experiment_price, Product.discount : Product.experiment_discount})
         db.session.commit()
-        # print(promos)
         return response.ok('', 'Success')
     except Exception as e:
         print(e)
@@ -236,11 +235,8 @@ def getAllPromoActive():
                     if promo.category_name == a['category_name'] :
                         a['total_max_discount'] += promo.max_discount
                         a['total_discount'] += promo.discount
-    result = {
-        'category_name' : category_name,
-        'discount' : promos
-    }
-    return result
+
+    return promos
 
 def getPromoCampaignById(id):
 
@@ -261,16 +257,14 @@ def getPromoCampaignById(id):
                 if promo.category_name == a['category_name'] :
                     a['total_max_discount'] += promo.max_discount
                     a['total_discount'] += promo.discount
-    result = {
-        'category_name' : category_name,
-        'discount' : promos
-    }
-    return result
+
+    return promos
 
 def getFinalProduct():
     data_products = []
     category_products = []
     promos = getAllPromoActive()
+    print(promos)
     for promo in promos:
         products = Product.query.filter_by(product_category = promo['category_name']).all()
 
