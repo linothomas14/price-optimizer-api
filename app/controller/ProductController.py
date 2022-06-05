@@ -101,7 +101,7 @@ def updateProduct(id):
         product.updated_at = datetime.now()
         db.session.commit()
         
-        return response.addData('', 'update success')
+        return response.addData('', 'successfully updated')
 
     except Exception as e:
         print(e)
@@ -118,7 +118,7 @@ def deleteProduct(id):
         db.session.delete(product)
         db.session.commit()
         
-        return response.ok('', 'delete product success')
+        return response.ok('', 'product deleted')
 
     except Exception as e:
         print(e)

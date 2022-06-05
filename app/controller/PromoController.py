@@ -62,7 +62,7 @@ def addPromo():
 
         # Check if campaign doesnt exist
         if not campaign :
-            return response.badRequest('', 'campaign not found')
+            return response.badRequest('', 'promo not found')
 
         promo = Promo(name=name, 
                     discount=discount,
