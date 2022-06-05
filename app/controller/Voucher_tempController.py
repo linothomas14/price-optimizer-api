@@ -1,7 +1,6 @@
 from flask import request
 from app import response, db
 from app.model.voucher_template import TemplateVoucher
-from flask_jwt_extended import *
 from datetime import datetime
 
 def index():
