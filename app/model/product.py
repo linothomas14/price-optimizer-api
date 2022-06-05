@@ -10,6 +10,8 @@ class Product(db.Model):
     base_price = db.Column(db.Float, nullable=False)
     competitor_price = db.Column(db.Integer, default=0)
     discount = db.Column(db.Float, nullable=False, default=0)
+    experiment_discount = db.Column(db.Float,nullable=False, default=0)
+    experiment_price = db.Column(db.Integer, nullable=False, default=0)
     final_price = db.Column(db.Float, nullable=False)
     
 
