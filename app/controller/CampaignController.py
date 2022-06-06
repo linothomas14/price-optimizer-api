@@ -5,7 +5,7 @@ from app.controller import PromoController
 from app.model.product import Product
 from app.model.promo import Promo
 from app.model.transaction import Transaction
-from app.controller.utils import demand_estimator 
+from app.controller.utils.demand_forecasting import demand_estimator 
 
 def index():
     try:

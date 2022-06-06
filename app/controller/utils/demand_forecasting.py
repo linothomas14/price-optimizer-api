@@ -7,6 +7,7 @@ import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
+
 class DataPreprocessing:
     def __init__(self, scaler,  window_size=30, batch_size=8, buffer_size=100_000, stateful=False):
         self.scaler = scaler 
@@ -14,7 +15,6 @@ class DataPreprocessing:
         self.batch_size = batch_size
         self.buffer_size = buffer_size
         self.stateful = stateful
-#         scaled_data = scaler.fit_transform(data[['sales', 'price']])
 
     def fit(self, data):
         self.scaler.fit(data[['sales', 'price']])
@@ -49,6 +49,7 @@ class DataPreprocessing:
 
         return ds
 
+
 class DiscountCalculator:
     def get_discounted_price(self, discount, days_ahead=14):
         base_price, discounted_price, start_date, end_date = self._parse(discount)
@@ -76,7 +77,6 @@ class DiscountCalculator:
 
     def next_day(self, day):
         return day + timedelta(days=1)
-
 
 
 class ModelPipeline:
