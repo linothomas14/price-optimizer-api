@@ -29,6 +29,10 @@ To run this project, follow these steps:
 | /users       | - | List Users | - | - |
 | /products  | Add product | List Products | - | - |
 | /products`<int:id>`  | - | Detail Product | Update Product | Delete Product |
+| /products?page=`<int>` | - | Detail Product per Page | - | - |
+| /products?page=`<string>` | - | Detail Product per category | - | - |
+
+
 
 
 ## API Documentation 
@@ -37,7 +41,7 @@ To run this project, follow these steps:
 * [User](#user)
     * [Get All Users](#get-all-users)
 * [Product](#product)
-    * [Get Products By Page](#get-products-by-page)
+    * [Get All Products or By Page](#get-all-products-or-by-page)
     * [Get Products By Category](#get-products-by-category)
     * [Get Product By Id](#get-product-by-id)
     * [Add Product](#add-product)
@@ -457,14 +461,21 @@ To run this project, follow these steps:
 }
 ```
 * Response body:
-`status code 201`
+`if succeed`
 ```json
 {
     "message": "successfully updated",
     "values": ""
 }
 ```
-`status code 400`
+`if total discount reach 100%`
+```json
+{
+    "message": "successfully updated",
+    "values": "Discount reach 100%"
+}
+```
+`else`
 ```json
 {
     "message": "Bad request",
