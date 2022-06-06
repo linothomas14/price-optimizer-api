@@ -36,7 +36,6 @@ def singleTransform(promo):
     }
     return data
 
-
 def show(id):
     try:
         promo = Promo.query.filter_by(id=id).first()
@@ -62,7 +61,7 @@ def addPromo():
 
         # Check if campaign doesnt exist
         if not campaign :
-            return response.badRequest('', 'promo not found')
+            return response.badRequest('', 'campaign not found')
 
         promo = Promo(name=name, 
                     discount=discount,
@@ -132,7 +131,6 @@ def deletePromo(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
-
 
 def getDiffPrice(base_price,discount,max_discount):
     diffPrice = base_price * discount
