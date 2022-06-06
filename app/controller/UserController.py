@@ -6,8 +6,8 @@ from app import response, app, db
 
 def index(page):
     try:
-        offset = (int(page) - 1) * 5
-        users = User.query.offset(offset).limit(5).all()
+        offset = (int(page) - 1) * 10
+        users = User.query.offset(offset).limit(10).all()
         data = transform(users)
         return response.ok(data, "")
     except Exception as e:
