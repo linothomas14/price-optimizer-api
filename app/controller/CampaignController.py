@@ -208,7 +208,7 @@ def predictDemand():
                     continue
                 products = Product.query.filter_by(product_category = promo.category_name).all()
                 base_price = sum([product.final_price for product in products])/len(products)
-                discounted_price = sum([product.experimental_price for product in products])/len(products)
+                discounted_price = sum([product.experiment_price for product in products])/len(products)
 
                 category_discounts[promo.category_name] = {
                     'base_price' : base_price,
@@ -216,7 +216,6 @@ def predictDemand():
                     'start_date': campaign.start_date,
                     'end_date': campaign.start_date,
                 }
-                print(category_discounts[promo.category_name])
 
         if len(category_discounts)==0:
             return response.ok('No active discounts', 'OK')
