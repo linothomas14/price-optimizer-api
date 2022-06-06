@@ -14,8 +14,8 @@ This API is intended for the purposes of our capstone project at Bangkit Academy
 To run this project, follow these steps:
 
 - run `pip install -r requirements.txt` to install dependencies
-- run `cp .flaskenv-example .flaskenv`
-- setup .flaskenv to handle connection with database
+- run `cp .env-example .env`
+- setup .env to handle connection with database
 - run `flask db init`
 - run `flask db migrate`
 - run `flask db upgrade`
