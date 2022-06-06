@@ -1,5 +1,6 @@
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
+from datetime import datetime, date, timedelta
 import joblib
 import pandas as pd
 
@@ -48,52 +49,80 @@ class DataPreprocessing:
 
         return ds
 
+class DiscountCalculator:
+    def get_discounted_price(self, discount, days_ahead=14):
+        base_price, discounted_price, start_date, end_date = self._parse(discount)
+        future_price = []
+        day = datetime.now()
+        for _ in range(1, days_ahead+1):
+            self.is_in_range(day, start_date, end_date)
+            if self.is_in_range(day, start_date, end_date):
+                future_price.append(discounted_price)
+            else:
+                future_price.append(base_price)
+            self.next_day(day)
+        return future_price
+
+    def _parse(self, discount):
+        return (
+            discount['base_price'],
+            discount['discounted_price'],
+            discount['start_date'],
+            discount['end_date'],
+        )
+
+    def is_in_range(self, day, start_date, end_date):
+        return start_date <= day <= end_date 
+
+    def next_day(self, day):
+        return day + timedelta(days=1)
+
+
+
 class ModelPipeline:
-    def __init__(self, model, data_pipeline):
+    def __init__(self, model, data_pipeline, discount_calculator):
         self.model = model
         self.data_pipeline = data_pipeline
+        self.discount_calculator = discount_calculator
         
-    def predict_next_week(self, model, data):
+    def predict_next_week(self, data):
         return self.model.predict(data)[0][0]
 
     def forecast(self, data, prices):
-        print('preparing')
         data = data.iloc[-(self.data_pipeline.batch_size + self.data_pipeline.window_size):]
         data = self.data_pipeline.rescale(data)
         data = data[['scaled_sales', 'scaled_price', 'sales']].copy()
 
         predictions = []
         for price in prices:
-            print('predicting')
             data = data.append({'scaled_sales':0, 'scaled_price': self.data_pipeline.scaler.transform([[0, price]])[0, 1]}, ignore_index = True)
             current_week = self.data_pipeline.create_windowed_dataset(data, with_label=True, rescale=False)
-            next_week_sales = self.predict_next_week(self.model, current_week)
+            next_week_sales = self.predict_next_week(current_week)
             predictions.append(int(next_week_sales))
             data['sales'].iloc[-1] = next_week_sales
 
         return predictions
 
-    def parse_data(self, history):
+    def _parse(self, history):
         data = []
         for timestep in history:
             data.append([timestep.sales, timestep.price])
         return pd.DataFrame(data, columns=['sales', 'price'])
 
     def estimate(self, history, discount):
-        data = self.parse_data(history)
-        last_price = data.iloc[-1]['price']
-        discounted_price =  last_price * (1 - discount)  
-        discounted_prices = [discounted_price for i in range(14)]
+        data = self._parse(history)
+        discounted_price = self.discount_calculator.get_discounted_price(discount)
 
-        return self.forecast(data, discounted_prices)
+        return self.forecast(data, discounted_price)
 
 
 def get_demand_estimator():
     model = tf.keras.models.load_model("assets/model/demand_forecasting")
     scaler = joblib.load("assets/model/demand_forecasting/scaler.joblib")
 
+    discount_calculator = DiscountCalculator()
     data_pipeline = DataPreprocessing(scaler)
-    model_pipeline = ModelPipeline(model, data_pipeline)
+    model_pipeline = ModelPipeline(model, data_pipeline, discount_calculator)
 
     return model_pipeline
 
