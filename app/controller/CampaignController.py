@@ -145,12 +145,8 @@ def changeActive(id):
         campaigns =Campaign.query.filter_by(id=id).first()
 
         # Check if campaign not found
-<<<<<<< HEAD
         if not campaigns :
             return response.badRequest('', 'campaign not found')
-=======
-        if not campaign : return response.badRequest('', 'campaign not found')
->>>>>>> 0a4a3a4 (Add demand prediction in campaign controller)
 
         # Check if campaign already active
         if campaigns.is_active == is_active :
@@ -193,7 +189,6 @@ def changeActive(id):
                     product.experiment_price += getDiffPrice(product.base_price,
                                     promo['total_discount'], 
                                     promo['total_max_discount'])
-
             db.session.commit()
             return response.addData('', 'Campaign Turned OFF')
 
@@ -209,7 +204,19 @@ def predictDemand():
         category_discounts = {} 
         for campaign in campaigns:
             for promo in campaign.promo:
-                category_discounts[promo.category_name] = category_discounts.get(promo.category_name, 0) + promo.discount
+                if promo.category_name in category_discounts.keys():
+                    continue
+                products = Product.query.filter_by(product_category = promo.category_name).all()
+                base_price = sum([product.final_price for product in products])/len(products)
+                discounted_price = sum([product.experimental_price for product in products])/len(products)
+
+                category_discounts[promo.category_name] = {
+                    'base_price' : base_price,
+                    'discounted_price': discounted_price,
+                    'start_date': campaign.start_date,
+                    'end_date': campaign.start_date,
+                }
+                print(category_discounts[promo.category_name])
 
         if len(category_discounts)==0:
             return response.ok('No active discounts', 'OK')
