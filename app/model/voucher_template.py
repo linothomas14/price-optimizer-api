@@ -8,6 +8,7 @@ class TemplateVoucher(db.Model):
     budget = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now)
-    
+    category_name = db.Column(db.String(230), nullable=False)
+    experied_date = db.Column(db.DateTime, default=datetime.now, nullable=False)
     def __repr__(self):
         return '<Voucher {}>'.format(self.name)

@@ -25,7 +25,9 @@ def singleTransform(templateVoucher):
         'discount_percent': templateVoucher.discount_percent,
         'budget': templateVoucher.budget,
         'created_at': templateVoucher.created_at,
-        'update_at': templateVoucher.update_at
+        'updated_at': templateVoucher.updated_at,
+        'category_name': templateVoucher.category_name,
+        'experied_date' : templateVoucher.experied_date
 
     }
     return data
@@ -46,16 +48,13 @@ def addVoucher():
         name = request.json['name']
         discount_percent = request.json['discount_percent']
         budget = request.json['budget']
+        category_name = request.json['category_name']
+        experied_date = request.json['experied_date']
         
-        templateVoucher = TemplateVoucher.query.filter_by(name=name).first()
-
-        # Check if campaign already exist
-        if templateVoucher :
-            return response.badRequest('', 'campaign already exist')
-
         templateVoucher = TemplateVoucher(name=name, 
                             discount_percent=discount_percent,
-                            budget=budget, 
+                            budget=budget, category_name=category_name,
+                            experied_date=experied_date
                             )
 
         db.session.add(templateVoucher)
@@ -72,6 +71,8 @@ def updateVoucher(id):
         name = request.json['name']
         discount_percent = request.json['discount_percent']
         budget = request.json['budget']
+        experied_date = request.json['experied_date']
+        category_name = request.json['category_name']
         
         templateVoucher = TemplateVoucher.query.filter_by(id=id).first()
 
@@ -83,6 +84,8 @@ def updateVoucher(id):
         templateVoucher.name=name
         templateVoucher.discount_percent=discount_percent
         templateVoucher.budget=budget
+        templateVoucher.experied_date=experied_date
+        templateVoucher.category_name=category_name
         templateVoucher.update_at=datetime.now()
         db.session.commit()
 

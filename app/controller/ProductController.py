@@ -33,6 +33,8 @@ def singleTransform(product):
         'name': product.name,
         'base_price': product.base_price,
         'product_category': product.product_category,
+        'discount': product.discount,
+        'final_price' : product.final_price,
         'competitor_price' : product.competitor_price,
         'created_at' : product.created_at,
         'updated_at' : product.updated_at,
