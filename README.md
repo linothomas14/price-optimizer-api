@@ -28,11 +28,15 @@ To run this project, follow these steps:
 | ----------- | :-------: | :------:  | :------:  | :------: |
 | /users       | - | List Users | - | - |
 | /products  | Add product | List Products | - | - |
-| /products`<int:id>`  | - | Detail Product | Update Product | Delete Product |
-| /products?page=`<int>` | - | Detail Product per Page | - | - |
-| /products?page=`<string>` | - | Detail Product per category | - | - |
-
-
+| /products/`<string:id>`  | - | Detail Product | Update Product | Delete Product |
+| /products?page=`<string>` | - | Detail Product per Page | - | - |
+| /products?category=`<string>` | - | Detail Product per category | - | - |
+| /campaigns  | Add Campaign | List Campaigns | - | - |
+| /campaigns/`<int:id>`  | - | - | Update Campaign | Delete Campaign |
+| /promos  | Add Promo | List Promos | - | - |
+| /promos/`<int:id>`  | - | - | Update Promo | Delete Promo |
+| /vouchers  | Add Voucher | List Vouchers | - | - |
+| /vouchers/`<int:id>`  | - | - | Update Voucher | Delete Voucher |
 
 
 ## API Documentation 
@@ -48,17 +52,20 @@ To run this project, follow these steps:
     * [Update Product](#update-product)
     * [Delete Product](#delete-product)
 * [Campaign](#campaign)
-    * [Get Campaign By Id](#get-campaign-by-id)
+    * [Get All Campaigns](#get-all-campaigns)
     * [Add Campaign](#add-campaign)
     * [Update Campaign](#update-campaign)
     * [Delete Campaign](#delete-campaign)
 * [Promo](#promo)
-    * [Get Products By Id](#get-products-by-id)
-    * [Add Product](#add-product)
-    * [Update Product](#update-product)
-    * [Delete Product](#delete-product)
+    * [Get All Promos](#get-all-promos)
+    * [Add Promo](#add-promo)
+    * [Update Promo](#update-promo)
+    * [Delete Promo](#delete-promo)
 * [Voucher](#voucher)
-
+    * [Get All Vouchers](#get-all-vouchers)
+    * [Add Voucher](#add-voucher)
+    * [Update Voucher](#update-voucher)
+    * [Delete Voucher](#delete-voucher)
 
 ## User
 
@@ -237,7 +244,7 @@ To run this project, follow these steps:
 
 ### Get Product By Id
 * Method : GET
-* URL : `/products/<int:id>`    
+* URL : `/products/<string:id>`    
 * Response body  :
 ```json
 {
@@ -275,7 +282,7 @@ To run this project, follow these steps:
 
 ### Update Product
 * Method : PUT
-* URL : `/products/<int:id>`       
+* URL : `/products/<string:id>`       
 * Request body:
 ```json
 {
@@ -293,7 +300,7 @@ To run this project, follow these steps:
 
 ### Delete Product
 * Method : DELETE
-* URL : `/products/<int:id>`    
+* URL : `/products/<string:id>`    
 * Response body :
 ```json
 {
@@ -396,7 +403,7 @@ To run this project, follow these steps:
 
 ### Delete Campaigns
 * Method : DELETE
-* URL : `/campaigns`    
+* URL : `/campaigns<int:id>`    
 * Response body :
 ```json
 {
@@ -470,7 +477,7 @@ To run this project, follow these steps:
 
 ### Update Promo
 * Method : PUT
-* URL: `/promos/`
+* URL: `/promos/<int:id>`
 * Request body:
 ```json
 {
@@ -505,7 +512,7 @@ To run this project, follow these steps:
 
 ### Delete Promo
 * Method : DELETE
-* URL : `/promos`    
+* URL : `/promos/<int:id>`    
 * Response body :
 ```json
 {
@@ -516,6 +523,27 @@ To run this project, follow these steps:
 
 ## Voucher
 *Still work on progress*
+### Get All Vouchers
+* Method : GET
+* URL: `/vouchers`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "perfumery",
+            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
+            "discount_percent": 0.1,
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "name": "Voucher parfum",
+            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+        }
+    ]
+}
+```
 ### Add Voucher
 * Method : POST
 * URL: `/vouchers`
@@ -528,11 +556,60 @@ To run this project, follow these steps:
     "experied_date": "2022-10-10",
     "budget": 100000
 }
+``` 
+* Response body:
+```json
+{
+    "message": "Voucher added",
+    "values": ""
+}
+```
+
+### Update Voucher
+* Method : PUT
+* URL: `/vouchers/<int:id>`
+* Request body:
+```json
+{
+    "name": "Voucher parfum",
+    "category_name": "perfumery",
+    "discount_percent": 0.2,
+    "experied_date": "2022-10-10",
+    "budget": 100000
+}
 ```
 * Response body:
 ```json
 {
     "message": "Voucher added",
+    "values": ""
+}
+```
+`if not found`
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "perfumery",
+            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
+            "discount_percent": 0.1,
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "name": "Voucher parfum",
+            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+        }
+    ]
+}
+```
+### Delete Voucher
+* Method : DELETE
+* URL: `/vouchers/<int:id>`
+* Response body:
+```json
+{
+    "message": "Vocuher deleted",
     "values": ""
 }
 ```
