@@ -20,3 +20,8 @@ def Vouchers(id):
         return Voucher_tempController.deleteVoucher(id)
     else :
         return Voucher_tempController.show(id)
+
+# get all user voucher
+@app.route('/voucher', methods=['GET'])
+def get_all_voucher():
+    return jsonify({"msg" : "This is price-optimizer-api"})
