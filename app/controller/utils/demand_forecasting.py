@@ -52,24 +52,34 @@ class DataPreprocessing:
 
 class DiscountCalculator:
     def get_discounted_price(self, discount, days_ahead=14):
-        base_price, discounted_price, start_date, end_date = self._parse(discount)
+        base_prices, promos = self._parse(discount)
         future_price = []
         day = datetime.now()
+
         for _ in range(1, days_ahead+1):
-            self.is_in_range(day, start_date, end_date)
-            if self.is_in_range(day, start_date, end_date):
-                future_price.append(discounted_price)
-            else:
-                future_price.append(base_price)
-            self.next_day(day)
+            discounted_prices = base_prices 
+            for promo in promos:
+                self.is_in_range(day, promo['start_date'], promo['end_date'])
+                if self.is_in_range(day, promo['start_date'], promo['end_date']):
+                    for i in range(len(base_prices)):
+                        discounted_prices[i] -= self.get_price_change(base_prices[i],
+                            promo['discount'], 
+                            promo['max_discount'])
+                    future_price.append(sum(discounted_prices)/len(base_prices))
+                else:
+                    future_price.append(sum(base_prices)/len(base_prices))
+            day = self.next_day(day)
+
         return future_price
+
+    def get_price_change(self, base_price, discount, max_discount):
+        price_change = base_price * discount
+        return price_change if price_change < max_discount else max_discount
 
     def _parse(self, discount):
         return (
             discount['base_price'],
-            discount['discounted_price'],
-            discount['start_date'],
-            discount['end_date'],
+            discount['promo']
         )
 
     def is_in_range(self, day, start_date, end_date):
