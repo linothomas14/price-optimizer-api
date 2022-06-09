@@ -205,16 +205,27 @@ def predictDemand():
         for campaign in campaigns:
             for promo in campaign.promo:
                 if promo.category_name in category_discounts.keys():
+                    category_discounts[promo.category_name]['promo'].append({
+                            'discount': promo.discount,
+                            'max_discount': promo.max_discount, 
+                            'start_date': campaign.start_date,
+                            'end_date': campaign.end_date,
+                        })
                     continue
-                products = Product.query.filter_by(product_category = promo.category_name).all()
-                base_price = sum([product.final_price for product in products])/len(products)
-                discounted_price = sum([product.experiment_price for product in products])/len(products)
 
+                products = Product.query.filter_by(product_category = promo.category_name).all()
+                base_price = [product.base_price for product in products]
+                
+                if len(base_price) == 0:
+                    continue
                 category_discounts[promo.category_name] = {
                     'base_price' : base_price,
-                    'discounted_price': discounted_price,
-                    'start_date': campaign.start_date,
-                    'end_date': campaign.start_date,
+                    'promo': [{
+                        'discount': promo.discount,
+                        'max_discount': promo.max_discount, 
+                        'start_date': campaign.start_date,
+                        'end_date': campaign.end_date,
+                    }]
                 }
 
         if len(category_discounts)==0:
