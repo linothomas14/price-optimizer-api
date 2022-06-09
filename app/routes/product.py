@@ -5,10 +5,11 @@ from app.controller import ProductController
 # Read and add products
 @app.route('/products', methods = ['GET','POST'])
 def product():
-    if request.method == 'GET':
+    if request.method == 'GET':     
         page = request.args.get('page', 1)
         category = request.args.get('category', "all")
-        return ProductController.index(page, category)
+        name = request.args.get('name',"all")
+        return ProductController.index(page, category, name)
     else :
         return ProductController.addProduct()
 
@@ -22,3 +23,7 @@ def products(id):
     else :
         return ProductController.show(id)
     
+@app.route('/products-search', methods = ['GET'])
+def search_products():
+    tag = request.args.get('tag', "all")
+    return ProductController.search(tag)
