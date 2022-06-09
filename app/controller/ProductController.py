@@ -5,13 +5,16 @@ from datetime import datetime
 import uuid
 
 
-def index(page,category):
+def index(page,category,name):
     try:
         offset = (int(page) - 1) * 10
-        if category == "all":
-            products = Product.query.offset(offset).limit(10).all()
-        else:
+        if name != "all" :
+            search = "%{}%".format(name)
+            products = Product.query.filter(Product.name.like(search)).offset(offset).limit(10).all()
+        elif category !="all":
             products = Product.query.filter_by(product_category=category).offset(offset).limit(10).all()
+        else :
+            products = Product.query.offset(offset).limit(10).all()
         data = transform(products)
         return response.ok(data, "")
 
@@ -38,8 +41,6 @@ def singleTransform(product):
         'updated_at' : product.updated_at,
     }
     return data
-
-# def showById(id):
 
 def show(id):
     try:
@@ -123,7 +124,6 @@ def deleteProduct(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
-
 
 def resetDB():
     try:
