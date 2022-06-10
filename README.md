@@ -286,6 +286,7 @@ To run this project, follow these steps:
 * Request body:
 ```json
 {
+    "name" : "baju",
     "base_price" : 140000
 }
 ```
