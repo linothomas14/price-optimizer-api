@@ -90,6 +90,7 @@ def addProduct():
 
 def updateProduct(id):
     try:
+        name = request.json['name']
         base_price = request.json['base_price']
         product = Product.query.filter_by(id=id).first()
 
@@ -97,6 +98,7 @@ def updateProduct(id):
         if not product :
             return response.badRequest('', 'product not found')
 
+        product.name=name
         product.base_price=base_price
         product.final_price= base_price - (base_price * product.discount)
         product.updated_at = datetime.now()
