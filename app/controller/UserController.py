@@ -2,7 +2,7 @@ import os
 from flask import request
 from app.model.user import User
 from app import response, app, db
-from app.controller.Voucher_controller import transform_voucher
+from app.controller.VoucherController import transform_voucher
 
 def index(page):
     try:
