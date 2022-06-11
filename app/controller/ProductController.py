@@ -3,6 +3,11 @@ from app.model.product import Product
 from app import response, db
 from datetime import datetime
 import uuid
+import urllib.parse
+import re
+import requests
+from bs4 import BeautifulSoup
+
 
 
 def index(page,category,name):
@@ -68,13 +73,13 @@ def addProduct():
         if discount_category :
             final_price= base_price - (base_price * discount_category.discount)
             product = Product(id=id, name=name, 
-                              base_price=base_price, 
-                              product_category=product_category,
-                              discount=discount_category.discount,
-                              experiment_discount= discount_category.experiment_discount,
-                              competitor_price=base_price,
-                              experiment_price=final_price, 
-                              final_price=final_price)
+                                base_price=base_price, 
+                                product_category=product_category,
+                                discount=discount_category.discount,
+                                experiment_discount= discount_category.experiment_discount,
+                                competitor_price=get_competitor_price(name,base_price),
+                                experiment_price=final_price, 
+                                final_price=final_price)
         else :
             final_price = base_price
             product = Product(id=id, name=name, base_price=base_price, product_category=product_category,experiment_price=final_price, competitor_price=base_price, final_price=final_price)
@@ -139,3 +144,21 @@ def resetDB():
     except Exception as e:
         print(e)
         return response.ok('error', 'Bad Request')
+
+def get_competitor_price(product_name, base_price):
+    try:
+        KEYWORD = urllib.parse.quote(product_name)
+        LINK = "https://www.lazada.co.id/catalog/?from=input&q="+KEYWORD+"&price="+str(base_price)+"-"
+        page = requests.get(LINK)
+        browser = BeautifulSoup(page.content, "html.parser")
+        lazada = str(browser)
+        price = lazada.split('priceShow')[1]
+        price = price.split('"')[2]
+        price = re.findall('[0-9]+',price)
+        price = ' '.join(price).replace(' ','')
+        price = int(price)
+        
+        return price
+    except:
+        return base_price
+        

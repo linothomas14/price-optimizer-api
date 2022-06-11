@@ -1,6 +1,8 @@
 from flask import jsonify, request
 from app import app, response
 from app.controller import Voucher_tempController
+from app.controller.utils import user_voucher
+from flask_jwt_extended import *
 
 # Read and add Vouchers
 @app.route('/vouchers', methods = ['GET','POST'])
@@ -19,3 +21,12 @@ def Vouchers(id):
         return Voucher_tempController.deleteVoucher(id)
     else :
         return Voucher_tempController.show(id)
+
+# get all user voucher
+@app.route('/vouchers/<int:id>/predict', methods=['POST'])
+def PredictVoucher(id):
+    return user_voucher.predict_users(id)
+
+@app.route('/vouchers/<int:id>/test', methods=['POST'])
+def test(id):
+    return user_voucher.test_function(id)
