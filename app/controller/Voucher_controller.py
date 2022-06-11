@@ -1,40 +1,41 @@
 import os
 from flask import request
-from app.model.user import User
+from app.model.voucher import Voucher
 from app import response, app, db
-from app.controller.Voucher_controller import transform_voucher
+
 
 def index(page):
     try:
         offset = (int(page) - 1) * 10
-        users = User.query.offset(offset).limit(10).all()
-        data = transform(users)
+        vouchers = Voucher.query.offset(offset).limit(10).all()
+        data = transform_voucher(vouchers)
         return response.ok(data, "")
     except Exception as e:
         print(e)
         return response.badRequest([], message=e)
 
-def transform(users):
+def transform_voucher(vouchers):
     data = []
-    for i in users:
+    for i in vouchers:
         data.append(singleTransform(i))
     return data
 
-def singleTransform(user):
+def singleTransform(voucher):
     data = {
-        'id': user.id,
-        'name': user.name,
-        'voucher': transform_voucher(user.voucher)
+        'id': voucher.id,
+        'max_discount' : voucher.max_discount,
+        'product_id' : voucher.product_id,
+        'name': voucher.name,
     }
     return data
 
 def show(id):
     try:
-        user = User.query.filter_by(id=id).first()
-        if not user:
-            return response.badRequest([], 'user not found')
+        voucher = Voucher.query.filter_by(id=id).first()
+        if not voucher:
+            return response.badRequest([], 'voucher not found')
 
-        data = singleTransform(user)
+        data = singleTransform(voucher)
         return response.ok(data, "")
     except Exception as e:
         print(e)

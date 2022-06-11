@@ -63,10 +63,6 @@ def addProduct():
         base_price = request.json['base_price']
         product_category = request.json['product_category']
         product = Product.query.filter_by(name=name).first()
-
-        # Check if product already exist
-        if product :
-            return response.badRequest('', 'product already exist')
         
         id = uuid.uuid4()
         discount_category = Product.query.filter_by(product_category=product_category).first()
@@ -87,7 +83,7 @@ def addProduct():
         # product.set_competitor_price(set_competitor_price)
         db.session.add(product)
         db.session.commit()
-        return response.addData('', 'Product added')
+        return response.addData('', 'Product id '+ str(id) +'added')
 
     except Exception as e:
         print(e)

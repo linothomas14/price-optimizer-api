@@ -1,13 +1,15 @@
 import tensorflow as tf
 import pandas as pd
-from app import app, response
-from flask import jsonify, request
+from app import app, response, db
 from app.controller import *
+import numpy as np
+from app.model.voucher import Voucher
 
+from app.model.voucher_template import TemplateVoucher
 
 def read_transactions():
     try:
-        return pd.read_csv("./final-data/transactions_user.csv")
+        return pd.read_csv("./assets/data/user_voucher/transactions_user.csv")
     except Exception as e :
         print(e)
         return response.badRequest('', e)
@@ -96,12 +98,12 @@ def get_list_loyal_customers_(transactions_):
         print(e)
         return response.badRequest('', e)
 
-def generate_voucher_for_user(customers, product_category, transactionss, list_product_in_uses, list_customer_orderss):
+def generate_voucher_for_user(models, customers, product_category, transactionss, list_product_in_uses, list_customer_orderss):
     try:
         transactions = transactionss
         list_product_in_use = list_product_in_uses
         list_customer_orders = list_customer_orderss
-
+        model = models
         
         product_customer_purchased = get_transaction_by_customer(customers, transactions)
         index_product_already_purchased = []
@@ -130,28 +132,39 @@ def generate_voucher_for_user(customers, product_category, transactionss, list_p
 # Main Function 
 def predict_users(id):
     try:
-        budget = 100000000
-        product_category = 'sports_leisure'
-        budget_per_user  = 60000
+        voucher = TemplateVoucher.query.filter_by(id=id).first()
+        if not voucher :
+            return response.badRequest('',"Template_Voucher id "+ str(id) +" not found")
+        budget_per_user  = 3 * voucher.max_discount
         
         transactions = read_transactions()
         list_product_in_use = list_product_in_use_(transactions)
         list_customer_orders = list_customer_orders_(transactions)
         
         # preparation
-        model = tf.keras.models.load_model("./model/voucher_model_3.h5")
-        list_customers_will_get_voucher =  get_list_loyal_customers_(transactions)[0:round(budget/budget_per_user)]
+        model = tf.keras.models.load_model("./assets/model/user_voucher/voucher_model_1.h5")
+        list_customers_will_get_voucher =  get_list_loyal_customers_(transactions)[0:round(voucher.budget/budget_per_user)]
         
         # predict users
         result = []
         for customers in list_customers_will_get_voucher:
-            list_voucher = generate_voucher_for_user(customers, product_category, transactions, list_product_in_use, list_customer_orders)
+            list_voucher = generate_voucher_for_user(model,customers, voucher.category_name, transactions, list_product_in_use, list_customer_orders)
             mydict ={}
             mydict["id"] = customers
             mydict['voucher'] = list_voucher
+            # voucher = Voucher(name=voucher.name,voucher.)
             result.append(mydict)
 
-        return result
+        for res in result:
+            for r in res['voucher']:
+                user = Voucher(name=voucher.name,user_id=res['id'],
+                                product_id=r,
+                                max_discount=voucher.max_discount)
+                db.session.add(user)
+        
+        db.session.commit()
+        return response.ok(result,'')
+        # return result
         
     except Exception as e :
         print(e)
