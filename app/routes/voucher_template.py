@@ -26,7 +26,3 @@ def Vouchers(id):
 @app.route('/vouchers/<int:id>/predict', methods=['POST'])
 def PredictVoucher(id):
     return user_voucher.predict_users(id)
-
-@app.route('/vouchers/<int:id>/test', methods=['POST'])
-def test(id):
-    return user_voucher.test_function(id)
