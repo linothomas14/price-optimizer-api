@@ -2,7 +2,7 @@ import os
 from flask import request
 from app.model.user import User
 from app import response, app, db
-
+from app.controller.VoucherController import transform_voucher
 
 def index(page):
     try:
@@ -24,7 +24,7 @@ def singleTransform(user):
     data = {
         'id': user.id,
         'name': user.name,
-        'voucher': user.voucher
+        'voucher': transform_voucher(user.voucher)
     }
     return data
 

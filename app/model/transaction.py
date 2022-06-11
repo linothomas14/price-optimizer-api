@@ -9,6 +9,7 @@ class Transaction(db.Model):
     order_purchase_time_stamp = db.Column(db.DateTime, default=datetime.now, nullable=False)
     sales = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
+
     
     def __repr__(self):
         return '<id_transaction: {},user_id: {}>'.format(self.id,self.user_id)

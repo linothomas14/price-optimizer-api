@@ -24,6 +24,7 @@ def singleTransform(transaction):
         'product_category_name' : transaction.product_category_name,
         'sales' : transaction.sales,
         'price' : transaction.price,
+        'order_purchase_time' : transaction.order_purchase_time_stamp
     }
     return data
 
