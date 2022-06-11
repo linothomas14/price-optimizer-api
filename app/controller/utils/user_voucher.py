@@ -1,5 +1,9 @@
 import tensorflow as tf
 import pandas as pd
+from app import app, response
+from flask import jsonify, request
+from app.controller import *
+
 
 def read_transactions():
     try:
@@ -37,13 +41,13 @@ def get_customer_index(customer_id,list_customer_orderss ):
         print(e)
         return response.badRequest('', e)
 
-def get_customer_id(customer_idx):
-    try:
-#         list_customer_orders = list_customer_orders_()
-        return list_customer_orders[list_customer_orders.customer_index == customer_idx].customer_unique_id.values[0]
-    except Exception as e :
-        print(e)
-        return response.badRequest('', e)
+# def get_customer_id(customer_idx, list_customer_orderss):
+#     try:
+#         list_customer_orders = list_customer_orderss
+#         return list_customer_orders[list_customer_orders.customer_index == customer_idx].customer_unique_id.values[0]
+#     except Exception as e :
+#         print(e)
+#         return response.badRequest('', e)
 
 def get_transaction_by_customer(customer_id, transactions_):
     try:
