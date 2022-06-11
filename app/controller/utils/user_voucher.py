@@ -1,3 +1,6 @@
+import tensorflow as tf
+import pandas as pd
+
 def read_transactions():
     try:
         return pd.read_csv("./final-data/transactions_user.csv")
