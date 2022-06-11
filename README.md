@@ -14,10 +14,11 @@ This API is intended for the purposes of our capstone project at Bangkit Academy
 To run this project, follow these steps:
 
 - run `pip install -r requirements.txt` to install dependencies
-- run `cp .flaskenv-example .flaskenv`
-- setup .flaskenv to handle connection with database
-- run `flask db init && flask db migrate && flask db upgrade`
-- run `flask db_seed` to add initial user with role admin
+- run `cp .env-example .env`
+- setup .env to handle connection with database
+- run `flask db init`
+- run `flask db migrate`
+- run `flask db upgrade`
 - run `flask run`
 
 ## Routes
@@ -27,7 +28,15 @@ To run this project, follow these steps:
 | ----------- | :-------: | :------:  | :------:  | :------: |
 | /users       | - | List Users | - | - |
 | /products  | Add product | List Products | - | - |
-| /products`<int:id>`  | - | Detail Product | Update Product | Delete Product |
+| /products/`<string:id>`  | - | Detail Product | Update Product | Delete Product |
+| /products?page=`<string>` | - | Detail Product per Page | - | - |
+| /products?category=`<string>` | - | Detail Product per category | - | - |
+| /campaigns  | Add Campaign | List Campaigns | - | - |
+| /campaigns/`<int:id>`  | - | - | Update Campaign | Delete Campaign |
+| /promos  | Add Promo | List Promos | - | - |
+| /promos/`<int:id>`  | - | - | Update Promo | Delete Promo |
+| /vouchers  | Add Voucher | List Vouchers | - | - |
+| /vouchers/`<int:id>`  | - | - | Update Voucher | Delete Voucher |
 
 
 ## API Documentation 
@@ -36,24 +45,27 @@ To run this project, follow these steps:
 * [User](#user)
     * [Get All Users](#get-all-users)
 * [Product](#product)
-    * [Get Products By Page](#get-products-by-page)
+    * [Get All Products or By Page](#get-all-products-or-by-page)
     * [Get Products By Category](#get-products-by-category)
     * [Get Product By Id](#get-product-by-id)
     * [Add Product](#add-product)
     * [Update Product](#update-product)
     * [Delete Product](#delete-product)
 * [Campaign](#campaign)
-    * [Get Campaign By Id](#get-campaign-by-id)
+    * [Get All Campaigns](#get-all-campaigns)
     * [Add Campaign](#add-campaign)
     * [Update Campaign](#update-campaign)
     * [Delete Campaign](#delete-campaign)
 * [Promo](#promo)
-    * [Get Products By Id](#get-products-by-id)
-    * [Add Product](#add-product)
-    * [Update Product](#update-product)
-    * [Delete Product](#delete-product)
+    * [Get All Promos](#get-all-promos)
+    * [Add Promo](#add-promo)
+    * [Update Promo](#update-promo)
+    * [Delete Promo](#delete-promo)
 * [Voucher](#voucher)
-
+    * [Get All Vouchers](#get-all-vouchers)
+    * [Add Voucher](#add-voucher)
+    * [Update Voucher](#update-voucher)
+    * [Delete Voucher](#delete-voucher)
 
 ## User
 
@@ -107,8 +119,10 @@ To run this project, follow these steps:
     "values": [
         {
             "base_price": 310390.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Sun, 20 May 2018 18:45:21 GMT",
+            "discount": 0.0,
+            "final_price": 310390.0,
             "id": "00066f42aeeb9f3007548bb9d3f33c38",
             "name": "",
             "product_category": "perfumery",
@@ -116,8 +130,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 396652.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Tue, 12 Dec 2017 19:20:28 GMT",
+            "discount": 0.0,
+            "final_price": 396652.0,
             "id": "00088930e925c41fd95ebfe695fd2655",
             "name": "",
             "product_category": "auto",
@@ -125,8 +141,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 699256.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Thu, 21 Dec 2017 16:21:47 GMT",
+            "discount": 0.0,
+            "final_price": 699256.0,
             "id": "0009406fd7479715e4bef61dd91f2462",
             "name": "",
             "product_category": "bed_bath_table",
@@ -134,8 +152,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 179852.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Wed, 01 Aug 2018 22:00:33 GMT",
+            "discount": 0.0,
+            "final_price": 179852.0,
             "id": "000b8f95fcb9e0096488278317764d19",
             "name": "",
             "product_category": "housewares",
@@ -143,8 +163,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 607650.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Tue, 03 Apr 2018 09:24:12 GMT",
+            "discount": 0.0,
+            "final_price": 607650.0,
             "id": "000d9be29b5207b54e86aa1b1ac54872",
             "name": "",
             "product_category": "watches_gifts",
@@ -163,8 +185,10 @@ To run this project, follow these steps:
     "values": [
         {
             "base_price": 396652.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Tue, 12 Dec 2017 19:20:28 GMT",
+            "discount": 0.0,
+            "final_price": 396652.0,
             "id": "00088930e925c41fd95ebfe695fd2655",
             "name": "",
             "product_category": "auto",
@@ -172,8 +196,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 158783.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Thu, 14 Dec 2017 20:30:29 GMT",
+            "discount": 0.0,
+            "final_price": 158783.0,
             "id": "0011c512eb256aa0dbbb544d8dffcf6e",
             "name": "",
             "product_category": "auto",
@@ -181,8 +207,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 182906.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Sat, 19 May 2018 14:46:42 GMT",
+            "discount": 0.0,
+            "final_price": 182906.0,
             "id": "006c67546bfe73c33b83f6bd1ad58c36",
             "name": "",
             "product_category": "auto",
@@ -190,8 +218,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 2900540.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Mon, 14 May 2018 21:03:30 GMT",
+            "discount": 0.0,
+            "final_price": 2900540.0,
             "id": "009df2b0bc078648fc4f5898de8cabff",
             "name": "",
             "product_category": "auto",
@@ -199,8 +229,10 @@ To run this project, follow these steps:
         },
         {
             "base_price": 393935.0,
-            "competitor_price": 0,
+            "competitor_price": null,
             "created_at": "Mon, 30 Jul 2018 18:41:35 GMT",
+            "discount": 0.0,
+            "final_price": 393935.0,
             "id": "00b264091d1c8df03976c3f3b176b35c",
             "name": "",
             "product_category": "auto",
@@ -212,7 +244,7 @@ To run this project, follow these steps:
 
 ### Get Product By Id
 * Method : GET
-* URL : `/products/<int:id>`    
+* URL : `/products/<string:id>`    
 * Response body  :
 ```json
 {
@@ -250,10 +282,11 @@ To run this project, follow these steps:
 
 ### Update Product
 * Method : PUT
-* URL : `/products/<int:id>`       
+* URL : `/products/<string:id>`       
 * Request body:
 ```json
 {
+    "name" : "baju",
     "base_price" : 140000
 }
 ```
@@ -268,7 +301,7 @@ To run this project, follow these steps:
 
 ### Delete Product
 * Method : DELETE
-* URL : `/products/<int:id>`    
+* URL : `/products/<string:id>`    
 * Response body :
 ```json
 {
@@ -371,7 +404,7 @@ To run this project, follow these steps:
 
 ### Delete Campaigns
 * Method : DELETE
-* URL : `/campaigns`    
+* URL : `/campaigns<int:id>`    
 * Response body :
 ```json
 {
@@ -445,7 +478,7 @@ To run this project, follow these steps:
 
 ### Update Promo
 * Method : PUT
-* URL: `/promos/`
+* URL: `/promos/<int:id>`
 * Request body:
 ```json
 {
@@ -456,14 +489,21 @@ To run this project, follow these steps:
 }
 ```
 * Response body:
-`status code 201`
+`if succeed`
 ```json
 {
     "message": "successfully updated",
     "values": ""
 }
 ```
-`status code 400`
+`if total discount reach 100%`
+```json
+{
+    "message": "successfully updated",
+    "values": "Discount reach 100%"
+}
+```
+`else`
 ```json
 {
     "message": "Bad request",
@@ -473,7 +513,7 @@ To run this project, follow these steps:
 
 ### Delete Promo
 * Method : DELETE
-* URL : `/promos`    
+* URL : `/promos/<int:id>`    
 * Response body :
 ```json
 {
@@ -484,14 +524,93 @@ To run this project, follow these steps:
 
 ## Voucher
 *Still work on progress*
+### Get All Vouchers
+* Method : GET
+* URL: `/vouchers`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "perfumery",
+            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
+            "discount_percent": 0.1,
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "name": "Voucher parfum",
+            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+        }
+    ]
+}
+```
 ### Add Voucher
 * Method : POST
 * URL: `/vouchers`
 * Request body:
+```json
+{
+    "name": "Voucher parfum",
+    "category_name": "perfumery",
+    "discount_percent": 0.1,
+    "experied_date": "2022-10-10",
+    "budget": 100000
+}
+``` 
 * Response body:
 ```json
 {
     "message": "Voucher added",
+    "values": ""
+}
+```
+
+### Update Voucher
+* Method : PUT
+* URL: `/vouchers/<int:id>`
+* Request body:
+```json
+{
+    "name": "Voucher parfum",
+    "category_name": "perfumery",
+    "discount_percent": 0.2,
+    "experied_date": "2022-10-10",
+    "budget": 100000
+}
+```
+* Response body:
+```json
+{
+    "message": "Voucher added",
+    "values": ""
+}
+```
+`if not found`
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "perfumery",
+            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
+            "discount_percent": 0.1,
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "name": "Voucher parfum",
+            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+        }
+    ]
+}
+```
+### Delete Voucher
+* Method : DELETE
+* URL: `/vouchers/<int:id>`
+* Response body:
+```json
+{
+    "message": "Vocuher deleted",
     "values": ""
 }
 ```

@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from app import app, response
 from app.controller import PromoController
-from flask_jwt_extended import *
 
 # Read and add promos
 @app.route('/promos', methods = ['GET','POST'])

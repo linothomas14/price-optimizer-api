@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from app import app
 from app.controller import UserController, ProductController
-from flask_jwt_extended import *
 
 @app.route('/')
 def index():

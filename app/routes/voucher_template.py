@@ -2,7 +2,7 @@ from flask import jsonify, request
 from app import app, response
 from app.controller import *
 from app.controller.utils import user_voucher
-from flask_jwt_extended import *
+from app.controller import Voucher_tempController
 
 # Read and add Vouchers
 @app.route('/vouchers', methods = ['GET','POST'])

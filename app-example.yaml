@@ -1,0 +1,11 @@
+runtime: python37
+
+env_variables:
+ ENV: 
+ FLASK_APP: main.py
+ DB_HOST: 
+ DB_DATABASE: 
+ DB_USERNAME: 
+ DB_PASSWORD: 
+ PROJECT_ID: 
+ INSTANCE_NAME: 

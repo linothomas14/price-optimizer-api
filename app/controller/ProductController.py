@@ -10,15 +10,16 @@ from bs4 import BeautifulSoup
 
 
 
-def index(page,category):
+def index(page,category,name):
     try:
-        offset = (int(page) - 1) * 5
-        if category == "all":
-            print("else")
-            products = Product.query.offset(offset).limit(5).all()
-        else:
-            print("else")
-            products = Product.query.filter_by(product_category=category).offset(offset).limit(5).all()
+        offset = (int(page) - 1) * 10
+        if name != "all" :
+            search = "%{}%".format(name)
+            products = Product.query.filter(Product.name.like(search)).offset(offset).limit(10).all()
+        elif category !="all":
+            products = Product.query.filter_by(product_category=category).offset(offset).limit(10).all()
+        else :
+            products = Product.query.offset(offset).limit(10).all()
         data = transform(products)
         return response.ok(data, "")
 
@@ -38,13 +39,13 @@ def singleTransform(product):
         'name': product.name,
         'base_price': product.base_price,
         'product_category': product.product_category,
+        'discount': product.discount,
+        'final_price' : product.final_price,
         'competitor_price' : product.competitor_price,
         'created_at' : product.created_at,
         'updated_at' : product.updated_at,
     }
     return data
-
-# def showById(id):
 
 def show(id):
     try:
@@ -94,6 +95,7 @@ def addProduct():
 
 def updateProduct(id):
     try:
+        name = request.json['name']
         base_price = request.json['base_price']
         product = Product.query.filter_by(id=id).first()
 
@@ -101,6 +103,7 @@ def updateProduct(id):
         if not product :
             return response.badRequest('', 'product not found')
 
+        product.name=name
         product.base_price=base_price
         product.final_price= base_price - (base_price * product.discount)
         product.updated_at = datetime.now()
@@ -128,7 +131,6 @@ def deleteProduct(id):
     except Exception as e:
         print(e)
         return response.badRequest('error', 'Bad request')
-
 
 def resetDB():
     try:
