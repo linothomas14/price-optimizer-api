@@ -74,6 +74,34 @@ def addVoucher():
         print(e)
         return response.badRequest('error', 'Bad request')
 
+def updateVoucher(id):
+    try:
+        
+        name = request.json['name']
+        max_discount = request.json['max_discount']
+        budget = request.json['budget']
+        category_name = request.json['category_name']
+        experied_date = request.json['experied_date']
+        
+        templateVoucher = TemplateVoucher.query.filter_by(id=id).first()
+        # Check if campaign not found
+        if not templateVoucher :
+            return response.badRequest('', 'Voucher not found')
+
+        templateVoucher = TemplateVoucher(name=name, 
+                            max_discount=max_discount,
+                            budget=budget, category_name=category_name,
+                            experied_date=experied_date
+                            )
+
+        db.session.commit()
+
+        return response.addData('', 'successfully updated')
+
+    except Exception as e:
+        print(e)
+        return response.badRequest('error', 'Bad request')
+
 def deleteVoucher(id):
     try:
         templateVoucher = TemplateVoucher.query.filter_by(id=id).first()

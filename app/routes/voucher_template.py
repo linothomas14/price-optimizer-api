@@ -3,17 +3,19 @@ from app import app, response
 from app.controller.utils import user_voucher
 from app.controller import Voucher_tempController
 
-# Read and add Vouchers
+# Read and add template Vouchers
 @app.route('/template-vouchers', methods = ['GET','POST'])
-def Voucher():
+def TempVoucher():
     if request.method == 'GET':
         return Voucher_tempController.index()
     else :
         return Voucher_tempController.addVoucher()
 
-# CRUD Voucher
-@app.route('/template-vouchers/<int:id>', methods = ['GET', 'DELETE'])
-def Vouchers(id):
+#   CRUD template Voucher
+@app.route('/template-vouchers/<int:id>', methods = ['GET','PUT', 'DELETE'])
+def TempVouchers(id):
+    if request.method == 'PUT':
+        return Voucher_tempController.updateVoucher(id)
     if request.method == 'DELETE':
         return Voucher_tempController.deleteVoucher(id)
     else :

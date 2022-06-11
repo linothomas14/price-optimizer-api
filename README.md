@@ -25,17 +25,20 @@ To run this project, follow these steps:
 
 | HTTP METHOD | POST            | GET       | PUT         | DELETE |
 | ----------- | :-------: | :------:  | :------:  | :------: |
-| /users       | - | List Users | - | - |
-| /products  | Add product | List Products | - | - |
+| /users       | - | List of Users | - | - |
+| /products  | Add product | List of Products | - | - |
 | /products/`<string:id>`  | - | Detail Product | Update Product | Delete Product |
-| /products?page=`<string>` | - | Detail Product per Page | - | - |
-| /products?category=`<string>` | - | Detail Product per category | - | - |
-| /campaigns  | Add Campaign | List Campaigns | - | - |
+| /products?page=`<string>` | - | List of Products per Page | - | - |
+| /products?category=`<string>` | - | List of Products per category | - | - |
+| /products?name=`<string>` | - | List of Products that have similar name | - | - |
+| /campaigns  | Add Campaign | List of Campaigns | - | - |
 | /campaigns/`<int:id>`  | - | - | Update Campaign | Delete Campaign |
-| /promos  | Add Promo | List Promos | - | - |
+| /promos  | Add Promo | List of Promos | - | - |
 | /promos/`<int:id>`  | - | - | Update Promo | Delete Promo |
-| /vouchers  | Add Voucher | List Vouchers | - | - |
-| /vouchers/`<int:id>`  | - | - | Update Voucher | Delete Voucher |
+| /vouchers  | - | List of Vouchers | - | - |
+| /vouchers/`<int:id>`  | - | Get Voucher by Id | - | - |
+| /template-vouchers  | - | List of Template Vouchers | - | - |
+| /template-vouchers/`<int:id>`  | Add Template Voucher | - | Update Template Voucher | Delete Template Voucher |
 
 
 ## API Documentation 
@@ -61,9 +64,12 @@ To run this project, follow these steps:
     * [Delete Promo](#delete-promo)
 * [Voucher](#voucher)
     * [Get All Vouchers](#get-all-vouchers)
-    * [Add Voucher](#add-voucher)
-    * [Update Voucher](#update-voucher)
-    * [Delete Voucher](#delete-voucher)
+    * [Get Voucher by Id](#get-voucher-by-id)
+* [Template Voucher](#voucher-template)
+    * [Get All Template Vouchers](#get-all-template-vouchers)
+    * [Add Template Voucher](#add-template-voucher)
+    * [Update Template Voucher](#update-template-voucher)
+    * [Delete Template Voucher](#delete-template-voucher)
 
 ## User
 
@@ -642,29 +648,73 @@ To run this project, follow these steps:
     "message": "",
     "values": [
         {
-            "budget": 100000,
-            "category_name": "perfumery",
-            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
-            "discount_percent": 0.1,
-            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
             "id": 1,
-            "name": "Voucher parfum",
-            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+            "max_discount": 20000.0,
+            "product_id": "00066f42aeeb9f3007548bb9d3f33c38",
+            "name": "Voucher parfum"
         }
     ]
 }
 ```
-### Add Voucher
+
+### Get Voucher by Id
+* Method : GET
+* URL: `/vouchers/<int:id>`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "id": 1,
+            "max_discount": 20000.0,
+            "product_id": "00066f42aeeb9f3007548bb9d3f33c38",
+            "name": "Voucher parfum"
+        }
+    ]
+}
+```
+`if not found`
+```json
+{
+    "message": "voucher not found",
+    "values": []
+}
+```
+
+##  Template Voucher
+### Get All Tempate Vouchers
+* Method : GET
+* URL: `/template-vouchers`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "auto",
+            "created_at": "Sat, 11 Jun 2022 15:31:16 GMT",
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "max_discount": 20000.0,
+            "name": "Voucher parfum",
+            "updated_at": "Sat, 11 Jun 2022 15:31:16 GMT"
+        }
+    ]
+}
+```
+### Add Template Voucher
 * Method : POST
-* URL: `/vouchers`
+* URL: `/template-vouchers`
 * Request body:
 ```json
 {
     "name": "Voucher parfum",
-    "category_name": "perfumery",
-    "discount_percent": 0.1,
-    "experied_date": "2022-10-10",
-    "budget": 100000
+    "category_name": "auto",
+    "max_discount": 20000,
+    "budget": 100000,
+    "experied_date": "2022-10-10"
 }
 ``` 
 * Response body:
@@ -675,7 +725,7 @@ To run this project, follow these steps:
 }
 ```
 
-### Update Voucher
+### Update Template Voucher
 * Method : PUT
 * URL: `/vouchers/<int:id>`
 * Request body:
@@ -683,37 +733,20 @@ To run this project, follow these steps:
 {
     "name": "Voucher parfum",
     "category_name": "perfumery",
-    "discount_percent": 0.2,
-    "experied_date": "2022-10-10",
-    "budget": 100000
+    "max_discount": 0.12,
+    "budget": 100000,
+    "experied_date": "2022-10-10"
 }
 ```
 * Response body:
 ```json
 {
-    "message": "Voucher added",
+    "message": "successfully updated",
     "values": ""
 }
 ```
-`if not found`
-```json
-{
-    "message": "",
-    "values": [
-        {
-            "budget": 100000,
-            "category_name": "perfumery",
-            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
-            "discount_percent": 0.1,
-            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
-            "id": 1,
-            "name": "Voucher parfum",
-            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
-        }
-    ]
-}
-```
-### Delete Voucher
+
+### Delete Template Voucher
 * Method : DELETE
 * URL: `/vouchers/<int:id>`
 * Response body:
