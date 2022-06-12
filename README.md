@@ -23,24 +23,25 @@ To run this project, follow these steps:
 
 ## Routes
 
-*Still work on progress*
 | HTTP METHOD | POST            | GET       | PUT         | DELETE |
 | ----------- | :-------: | :------:  | :------:  | :------: |
-| /users       | - | List Users | - | - |
-| /products  | Add product | List Products | - | - |
+| /users       | - | List of Users | - | - |
+| /products  | Add product | List of Products | - | - |
 | /products/`<string:id>`  | - | Detail Product | Update Product | Delete Product |
-| /products?page=`<string>` | - | Detail Product per Page | - | - |
-| /products?category=`<string>` | - | Detail Product per category | - | - |
-| /campaigns  | Add Campaign | List Campaigns | - | - |
+| /products?page=`<string>` | - | List of Products per Page | - | - |
+| /products?category=`<string>` | - | List of Products per category | - | - |
+| /products?name=`<string>` | - | List of Products that have similar name | - | - |
+| /campaigns  | Add Campaign | List of Campaigns | - | - |
 | /campaigns/`<int:id>`  | - | - | Update Campaign | Delete Campaign |
-| /promos  | Add Promo | List Promos | - | - |
+| /promos  | Add Promo | List of Promos | - | - |
 | /promos/`<int:id>`  | - | - | Update Promo | Delete Promo |
-| /vouchers  | Add Voucher | List Vouchers | - | - |
-| /vouchers/`<int:id>`  | - | - | Update Voucher | Delete Voucher |
+| /vouchers  | - | List of Vouchers | - | - |
+| /vouchers/`<int:id>`  | - | Get Voucher by Id | - | - |
+| /template-vouchers  | - | List of Template Vouchers | - | - |
+| /template-vouchers/`<int:id>`  | Add Template Voucher | - | Update Template Voucher | Delete Template Voucher |
 
 
 ## API Documentation 
-*Still work on progress*
 ### List of Endpoints
 * [User](#user)
     * [Get All Users](#get-all-users)
@@ -63,9 +64,12 @@ To run this project, follow these steps:
     * [Delete Promo](#delete-promo)
 * [Voucher](#voucher)
     * [Get All Vouchers](#get-all-vouchers)
-    * [Add Voucher](#add-voucher)
-    * [Update Voucher](#update-voucher)
-    * [Delete Voucher](#delete-voucher)
+    * [Get Voucher by Id](#get-voucher-by-id)
+* [Template Voucher](#voucher-template)
+    * [Get All Template Vouchers](#get-all-template-vouchers)
+    * [Add Template Voucher](#add-template-voucher)
+    * [Update Template Voucher](#update-template-voucher)
+    * [Delete Template Voucher](#delete-template-voucher)
 
 ## User
 
@@ -119,58 +123,113 @@ To run this project, follow these steps:
     "values": [
         {
             "base_price": 310390.0,
-            "competitor_price": null,
-            "created_at": "Sun, 20 May 2018 18:45:21 GMT",
+            "competitor_price": 349000,
+            "created_at": "Sun, 20 May 2018 18:45:00 GMT",
             "discount": 0.0,
-            "final_price": 310390.0,
+            "final_price": 0.0,
             "id": "00066f42aeeb9f3007548bb9d3f33c38",
-            "name": "",
+            "name": "Euodia Parfums Freese 30 ml",
             "product_category": "perfumery",
-            "updated_at": "Sun, 20 May 2018 18:45:21 GMT"
+            "updated_at": "Sun, 20 May 2018 18:45:00 GMT"
         },
         {
             "base_price": 396652.0,
-            "competitor_price": null,
-            "created_at": "Tue, 12 Dec 2017 19:20:28 GMT",
+            "competitor_price": 600000,
+            "created_at": "Tue, 12 Dec 2017 19:20:00 GMT",
             "discount": 0.0,
-            "final_price": 396652.0,
+            "final_price": 0.0,
             "id": "00088930e925c41fd95ebfe695fd2655",
-            "name": "",
+            "name": "kaca film 3m auto film dpn 40%.black beauty.",
             "product_category": "auto",
-            "updated_at": "Tue, 12 Dec 2017 19:20:28 GMT"
+            "updated_at": "Tue, 12 Dec 2017 19:20:00 GMT"
         },
         {
             "base_price": 699256.0,
-            "competitor_price": null,
-            "created_at": "Thu, 21 Dec 2017 16:21:47 GMT",
+            "competitor_price": 988900,
+            "created_at": "Thu, 21 Dec 2017 16:21:00 GMT",
             "discount": 0.0,
-            "final_price": 699256.0,
+            "final_price": 0.0,
             "id": "0009406fd7479715e4bef61dd91f2462",
-            "name": "",
+            "name": "Bed & Bath Leaf Medley Cutwork Table Runner  54 Inches by 54 Inches",
             "product_category": "bed_bath_table",
-            "updated_at": "Thu, 21 Dec 2017 16:21:47 GMT"
+            "updated_at": "Thu, 21 Dec 2017 16:21:00 GMT"
         },
         {
             "base_price": 179852.0,
-            "competitor_price": null,
-            "created_at": "Wed, 01 Aug 2018 22:00:33 GMT",
+            "competitor_price": 1701600,
+            "created_at": "Wed, 01 Aug 2018 22:00:00 GMT",
             "discount": 0.0,
-            "final_price": 179852.0,
+            "final_price": 0.0,
             "id": "000b8f95fcb9e0096488278317764d19",
-            "name": "",
+            "name": "NACHTMANN SQUARE VASE 28CM SET/1",
             "product_category": "housewares",
-            "updated_at": "Fri, 10 Aug 2018 13:24:35 GMT"
+            "updated_at": "Fri, 10 Aug 2018 13:24:00 GMT"
         },
         {
             "base_price": 607650.0,
-            "competitor_price": null,
-            "created_at": "Tue, 03 Apr 2018 09:24:12 GMT",
+            "competitor_price": 1430000,
+            "created_at": "Tue, 03 Apr 2018 09:24:00 GMT",
             "discount": 0.0,
-            "final_price": 607650.0,
+            "final_price": 0.0,
             "id": "000d9be29b5207b54e86aa1b1ac54872",
-            "name": "",
+            "name": "Jam Tangan Pria Guess W1108G4 Navy Men Watch Gift Color Original + Box",
             "product_category": "watches_gifts",
-            "updated_at": "Tue, 03 Apr 2018 09:24:12 GMT"
+            "updated_at": "Tue, 03 Apr 2018 09:24:00 GMT"
+        },
+        {
+            "base_price": 158783.0,
+            "competitor_price": 332000,
+            "created_at": "Thu, 14 Dec 2017 20:30:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "0011c512eb256aa0dbbb544d8dffcf6e",
+            "name": "Paket Komplit Perawatan Mobil Premium ZERONE JAPAN Mobil Auto Bersih",
+            "product_category": "auto",
+            "updated_at": "Thu, 14 Dec 2017 20:30:00 GMT"
+        },
+        {
+            "base_price": 760326.0,
+            "competitor_price": 921000,
+            "created_at": "Sun, 17 Sep 2017 20:35:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "00126f27c813603687e6ce486d909d01",
+            "name": "How to Draw Cool Stuff: A Drawing Guide for Teachers and Students",
+            "product_category": "cool_stuff",
+            "updated_at": "Sun, 17 Sep 2017 20:45:00 GMT"
+        },
+        {
+            "base_price": 118782.0,
+            "competitor_price": 1200000,
+            "created_at": "Sat, 28 Oct 2017 18:16:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "001795ec6f1b187d37335e1c4704762e",
+            "name": "Anbernic RG280V / Nintendo / Retro Game / Game Boy / Sega - Kuning",
+            "product_category": "consoles_games",
+            "updated_at": "Wed, 27 Dec 2017 00:22:00 GMT"
+        },
+        {
+            "base_price": 240923.0,
+            "competitor_price": 308750,
+            "created_at": "Thu, 09 Aug 2018 01:24:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "001b237c0e9bb435f2e54071129237e9",
+            "name": "Kitchen Cook jumbo SPATULA \"our Table\" import USA Bed Bath Beyond",
+            "product_category": "bed_bath_table",
+            "updated_at": "Thu, 09 Aug 2018 01:24:00 GMT"
+        },
+        {
+            "base_price": 106843.0,
+            "competitor_price": 8000000,
+            "created_at": "Wed, 15 Feb 2017 23:49:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "001b72dfd63e9833e8c02742adf472e3",
+            "name": "Celine Credenza / Meja Pajangan Lemari Penyimpanan Gold Emas Furniture",
+            "product_category": "furniture_decor",
+            "updated_at": "Fri, 15 Dec 2017 09:16:00 GMT"
         }
     ]
 }
@@ -185,58 +244,113 @@ To run this project, follow these steps:
     "values": [
         {
             "base_price": 396652.0,
-            "competitor_price": null,
-            "created_at": "Tue, 12 Dec 2017 19:20:28 GMT",
+            "competitor_price": 600000,
+            "created_at": "Tue, 12 Dec 2017 19:20:00 GMT",
             "discount": 0.0,
-            "final_price": 396652.0,
+            "final_price": 0.0,
             "id": "00088930e925c41fd95ebfe695fd2655",
-            "name": "",
+            "name": "kaca film 3m auto film dpn 40%.black beauty.",
             "product_category": "auto",
-            "updated_at": "Tue, 12 Dec 2017 19:20:28 GMT"
+            "updated_at": "Tue, 12 Dec 2017 19:20:00 GMT"
         },
         {
             "base_price": 158783.0,
-            "competitor_price": null,
-            "created_at": "Thu, 14 Dec 2017 20:30:29 GMT",
+            "competitor_price": 332000,
+            "created_at": "Thu, 14 Dec 2017 20:30:00 GMT",
             "discount": 0.0,
-            "final_price": 158783.0,
+            "final_price": 0.0,
             "id": "0011c512eb256aa0dbbb544d8dffcf6e",
-            "name": "",
+            "name": "Paket Komplit Perawatan Mobil Premium ZERONE JAPAN Mobil Auto Bersih",
             "product_category": "auto",
-            "updated_at": "Thu, 14 Dec 2017 20:30:29 GMT"
+            "updated_at": "Thu, 14 Dec 2017 20:30:00 GMT"
         },
         {
             "base_price": 182906.0,
-            "competitor_price": null,
-            "created_at": "Sat, 19 May 2018 14:46:42 GMT",
+            "competitor_price": 209000,
+            "created_at": "Sat, 19 May 2018 14:46:00 GMT",
             "discount": 0.0,
-            "final_price": 182906.0,
+            "final_price": 0.0,
             "id": "006c67546bfe73c33b83f6bd1ad58c36",
-            "name": "",
+            "name": "Auto Detailing Paket 7 Varian Pengkilap Kendaraan Mobil Motor Premium",
             "product_category": "auto",
-            "updated_at": "Sat, 19 May 2018 14:46:42 GMT"
+            "updated_at": "Sat, 19 May 2018 14:46:00 GMT"
         },
         {
             "base_price": 2900540.0,
-            "competitor_price": null,
-            "created_at": "Mon, 14 May 2018 21:03:30 GMT",
+            "competitor_price": 8202000,
+            "created_at": "Mon, 14 May 2018 21:03:00 GMT",
             "discount": 0.0,
-            "final_price": 2900540.0,
+            "final_price": 0.0,
             "id": "009df2b0bc078648fc4f5898de8cabff",
-            "name": "",
+            "name": "SCAN TOOL XTOOL X100 PAD OBD2 Auto Key Programmer Diagnostic Scanner T",
             "product_category": "auto",
-            "updated_at": "Mon, 14 May 2018 21:03:30 GMT"
+            "updated_at": "Mon, 14 May 2018 21:03:00 GMT"
         },
         {
             "base_price": 393935.0,
-            "competitor_price": null,
-            "created_at": "Mon, 30 Jul 2018 18:41:35 GMT",
+            "competitor_price": 749000,
+            "created_at": "Mon, 30 Jul 2018 18:41:00 GMT",
             "discount": 0.0,
-            "final_price": 393935.0,
+            "final_price": 0.0,
             "id": "00b264091d1c8df03976c3f3b176b35c",
-            "name": "",
+            "name": "70mai Smart Dash Cam Wifi M300 1296P Recorder Auto Car Camera",
             "product_category": "auto",
-            "updated_at": "Mon, 30 Jul 2018 18:41:35 GMT"
+            "updated_at": "Mon, 30 Jul 2018 18:41:00 GMT"
+        },
+        {
+            "base_price": 821030.0,
+            "competitor_price": 2100000,
+            "created_at": "Mon, 27 Nov 2017 12:12:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "00bb62ea3729537a687c3fddcd123662",
+            "name": "Defi Advance ZD Digital Auto Meter",
+            "product_category": "auto",
+            "updated_at": "Mon, 27 Nov 2017 12:12:00 GMT"
+        },
+        {
+            "base_price": 362758.0,
+            "competitor_price": 617500,
+            "created_at": "Tue, 31 Jul 2018 18:18:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "00de606a5dda99c2499f94ef18282977",
+            "name": "CARLINKIT Wireless Dongle Carplay Android Auto Android Headunit Wired",
+            "product_category": "auto",
+            "updated_at": "Tue, 31 Jul 2018 18:18:00 GMT"
+        },
+        {
+            "base_price": 182906.0,
+            "competitor_price": 209000,
+            "created_at": "Sun, 26 Nov 2017 07:52:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "0110986ff84d644fee920efb18577292",
+            "name": "Auto Detailing Paket 7 Varian Pengkilap Kendaraan Mobil Motor Premium",
+            "product_category": "auto",
+            "updated_at": "Sun, 26 Nov 2017 07:52:00 GMT"
+        },
+        {
+            "base_price": 120614.0,
+            "competitor_price": 135000,
+            "created_at": "Mon, 11 Dec 2017 01:05:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "0168e1b28d8e55a515928cf656eff0a4",
+            "name": "Paket NYOC ONE KLIN+Auto Purifier-car fogging-car interior cleaner",
+            "product_category": "auto",
+            "updated_at": "Tue, 24 Jul 2018 09:09:00 GMT"
+        },
+        {
+            "base_price": 167638.0,
+            "competitor_price": 898000,
+            "created_at": "Sun, 01 Oct 2017 11:21:00 GMT",
+            "discount": 0.0,
+            "final_price": 0.0,
+            "id": "016f3b29107ed03252e477b08445cec4",
+            "name": "Auto Headlight System With Follow Me Home Jazz GK5 by PlugNPlay",
+            "product_category": "auto",
+            "updated_at": "Sun, 01 Oct 2017 11:21:00 GMT"
         }
     ]
 }
@@ -251,12 +365,14 @@ To run this project, follow these steps:
     "message": "",
     "values": {
         "base_price": 310390.0,
-        "competitor_price": 0,
-        "created_at": "Sun, 20 May 2018 18:45:21 GMT",
+        "competitor_price": 349000,
+        "created_at": "Sun, 20 May 2018 18:45:00 GMT",
+        "discount": 0.0,
+        "final_price": 0.0,
         "id": "00066f42aeeb9f3007548bb9d3f33c38",
-        "name": "",
+        "name": "Euodia Parfums Freese 30 ml",
         "product_category": "perfumery",
-        "updated_at": "Sun, 20 May 2018 18:45:21 GMT"
+        "updated_at": "Sun, 20 May 2018 18:45:00 GMT"
     }
 }
 ```
@@ -523,7 +639,6 @@ To run this project, follow these steps:
 ```
 
 ## Voucher
-*Still work on progress*
 ### Get All Vouchers
 * Method : GET
 * URL: `/vouchers`
@@ -533,29 +648,73 @@ To run this project, follow these steps:
     "message": "",
     "values": [
         {
-            "budget": 100000,
-            "category_name": "perfumery",
-            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
-            "discount_percent": 0.1,
-            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
             "id": 1,
-            "name": "Voucher parfum",
-            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
+            "max_discount": 20000.0,
+            "product_id": "00066f42aeeb9f3007548bb9d3f33c38",
+            "name": "Voucher parfum"
         }
     ]
 }
 ```
-### Add Voucher
+
+### Get Voucher by Id
+* Method : GET
+* URL: `/vouchers/<int:id>`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "id": 1,
+            "max_discount": 20000.0,
+            "product_id": "00066f42aeeb9f3007548bb9d3f33c38",
+            "name": "Voucher parfum"
+        }
+    ]
+}
+```
+`if not found`
+```json
+{
+    "message": "voucher not found",
+    "values": []
+}
+```
+
+##  Template Voucher
+### Get All Tempate Vouchers
+* Method : GET
+* URL: `/template-vouchers`
+* Response body:
+```json
+{
+    "message": "",
+    "values": [
+        {
+            "budget": 100000,
+            "category_name": "auto",
+            "created_at": "Sat, 11 Jun 2022 15:31:16 GMT",
+            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
+            "id": 1,
+            "max_discount": 20000.0,
+            "name": "Voucher parfum",
+            "updated_at": "Sat, 11 Jun 2022 15:31:16 GMT"
+        }
+    ]
+}
+```
+### Add Template Voucher
 * Method : POST
-* URL: `/vouchers`
+* URL: `/template-vouchers`
 * Request body:
 ```json
 {
     "name": "Voucher parfum",
-    "category_name": "perfumery",
-    "discount_percent": 0.1,
-    "experied_date": "2022-10-10",
-    "budget": 100000
+    "category_name": "auto",
+    "max_discount": 20000,
+    "budget": 100000,
+    "experied_date": "2022-10-10"
 }
 ``` 
 * Response body:
@@ -566,7 +725,7 @@ To run this project, follow these steps:
 }
 ```
 
-### Update Voucher
+### Update Template Voucher
 * Method : PUT
 * URL: `/vouchers/<int:id>`
 * Request body:
@@ -574,37 +733,20 @@ To run this project, follow these steps:
 {
     "name": "Voucher parfum",
     "category_name": "perfumery",
-    "discount_percent": 0.2,
-    "experied_date": "2022-10-10",
-    "budget": 100000
+    "max_discount": 0.12,
+    "budget": 100000,
+    "experied_date": "2022-10-10"
 }
 ```
 * Response body:
 ```json
 {
-    "message": "Voucher added",
+    "message": "successfully updated",
     "values": ""
 }
 ```
-`if not found`
-```json
-{
-    "message": "",
-    "values": [
-        {
-            "budget": 100000,
-            "category_name": "perfumery",
-            "created_at": "Tue, 07 Jun 2022 17:30:07 GMT",
-            "discount_percent": 0.1,
-            "experied_date": "Mon, 10 Oct 2022 00:00:00 GMT",
-            "id": 1,
-            "name": "Voucher parfum",
-            "updated_at": "Tue, 07 Jun 2022 17:30:07 GMT"
-        }
-    ]
-}
-```
-### Delete Voucher
+
+### Delete Template Voucher
 * Method : DELETE
 * URL: `/vouchers/<int:id>`
 * Response body:
