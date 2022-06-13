@@ -4,10 +4,15 @@ from app.model.user import User
 from app import response, app, db
 from app.controller.VoucherController import transform_voucher
 
-def index(page):
+def index(page,name):
     try:
-        offset = (int(page) - 1) * 10
-        users = User.query.offset(offset).limit(10).all()
+        offset = (int(page) - 1) * 50
+        if name == "all":
+            users = User.query.offset(offset).limit(50).all()
+        else :
+            print(name)
+            search = "%{}%".format(name)
+            users = User.query.filter(User.name.like(search)).offset(offset).limit(50).all()
         data = transform(users)
         return response.ok(data, "")
     except Exception as e:
