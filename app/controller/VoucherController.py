@@ -6,8 +6,8 @@ from app import response, app, db
 
 def index(page):
     try:
-        offset = (int(page) - 1) * 10
-        vouchers = Voucher.query.offset(offset).limit(10).all()
+        offset = (int(page) - 1) * 50
+        vouchers = Voucher.query.offset(offset).limit(50).all()
         data = transform_voucher(vouchers)
         return response.ok(data, "")
     except Exception as e:
@@ -17,7 +17,7 @@ def index(page):
 def transform_voucher(vouchers):
     data = []
     for i in vouchers:
-        data.append(singleTransform(i))
+        data.append(singleTransformWithUserId(i))
     return data
 
 def singleTransform(voucher):
@@ -26,6 +26,16 @@ def singleTransform(voucher):
         'max_discount' : voucher.max_discount,
         'product_id' : voucher.product_id,
         'name': voucher.name,
+    }
+    return data
+
+def singleTransformWithUserId(voucher):
+    data = {
+        'id': voucher.id,
+        'max_discount' : voucher.max_discount,
+        'product_id' : voucher.product_id,
+        'name': voucher.name,
+        'user_id' : voucher.user_id
     }
     return data
 

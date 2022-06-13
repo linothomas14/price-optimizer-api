@@ -12,14 +12,14 @@ from bs4 import BeautifulSoup
 
 def index(page,category,name):
     try:
-        offset = (int(page) - 1) * 10
+        offset = (int(page) - 1) * 50
         if name != "all" :
             search = "%{}%".format(name)
-            products = Product.query.filter(Product.name.like(search)).offset(offset).limit(10).all()
+            products = Product.query.filter(Product.name.like(search)).offset(offset).limit(50).all()
         elif category !="all":
-            products = Product.query.filter_by(product_category=category).offset(offset).limit(10).all()
+            products = Product.query.filter_by(product_category=category).offset(offset).limit(50).all()
         else :
-            products = Product.query.offset(offset).limit(10).all()
+            products = Product.query.offset(offset).limit(50).all()
         data = transform(products)
         return response.ok(data, "")
 

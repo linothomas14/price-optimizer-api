@@ -14,7 +14,8 @@ def index():
 @app.route('/users', methods = ['GET'])
 def user():
     page = request.args.get('page',1)
-    return UserController.index(page)
+    name = request.args.get('name','all')
+    return UserController.index(page,name)
 
 # Read userById
 @app.route('/users/<string:id>', methods = ['GET'])

@@ -163,7 +163,7 @@ def predict_users(id):
                 db.session.add(user)
         
         db.session.commit()
-        return response.ok(result,'ok,'+len(result)+' user have voucher')
+        return response.ok(result,'ok,'+str(len(result))+' user have voucher')
         # return result
         
     except Exception as e :
