@@ -27,3 +27,7 @@ def change_active(id):
 @app.route('/campaigns/apply-campaign', methods=['PUT'])
 def apply_campaign():
     return CampaignController.applyCampaign()
+
+@app.route('/campaigns/predict-demand', methods=['GET'])
+def predict_demand():
+    return CampaignController.predictDemand()

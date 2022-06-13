@@ -4,6 +4,8 @@ from app.model.campaign import Campaign
 from app.controller import PromoController
 from app.model.product import Product
 from app.model.promo import Promo
+from app.model.transaction import Transaction
+from app.controller.utils.demand_forecasting import demand_estimator 
 
 def index():
     try:
@@ -187,7 +189,6 @@ def changeActive(id):
                     product.experiment_price += getDiffPrice(product.base_price,
                                     promo['total_discount'], 
                                     promo['total_max_discount'])
-
             db.session.commit()
             return response.addData('', 'Campaign Turned OFF')
 
@@ -195,16 +196,50 @@ def changeActive(id):
         print(e)
         return response.badRequest('error', 'Bad request')
 
-'''
-def predictDemand(id_campaign):
+def predictDemand():
     try:
-        #Ambil discount, startDate dan endDate, category product disetiap promo
-        #Ambil history transaksi
-        #jalanin ML
-        #output JSON
+        forecast = {}
+        campaigns = Campaign.query.filter_by(is_active=True).all()
+
+        category_discounts = {} 
+        for campaign in campaigns:
+            for promo in campaign.promo:
+                if promo.category_name in category_discounts.keys():
+                    category_discounts[promo.category_name]['promo'].append({
+                            'discount': promo.discount,
+                            'max_discount': promo.max_discount, 
+                            'start_date': campaign.start_date,
+                            'end_date': campaign.end_date,
+                        })
+                    continue
+
+                products = Product.query.filter_by(product_category = promo.category_name).all()
+                base_price = [product.base_price for product in products]
+                
+                if len(base_price) == 0:
+                    continue
+                category_discounts[promo.category_name] = {
+                    'base_price' : base_price,
+                    'promo': [{
+                        'discount': promo.discount,
+                        'max_discount': promo.max_discount, 
+                        'start_date': campaign.start_date,
+                        'end_date': campaign.end_date,
+                    }]
+                }
+
+        if len(category_discounts)==0:
+            return response.ok('No active discounts', 'OK')
+
+        for category, discount in category_discounts.items():
+            history = Transaction.query.filter_by(product_category_name=category).all()
+            sales = demand_estimator.estimate(history, discount)
+            forecast[category] = sales 
+
+        return response.ok(forecast, 'OK')
     except Exception as e:
         print(e)
-'''
+        return response.badRequest('error', 'Bruh moment')
 
 def applyCampaign():
     try:
