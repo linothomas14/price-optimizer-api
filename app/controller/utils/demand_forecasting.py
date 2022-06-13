@@ -96,7 +96,7 @@ class ModelPipeline:
         self.discount_calculator = discount_calculator
         
     def predict_next_week(self, data):
-        return self.model.predict(data)[0][0]
+        return self.model.predict(data, verbose=0)[0][0]
 
     def forecast(self, data, prices):
         data = data.iloc[-(self.data_pipeline.batch_size + self.data_pipeline.window_size):]
