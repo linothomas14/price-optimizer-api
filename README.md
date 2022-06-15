@@ -57,6 +57,9 @@ To run this project, follow these steps:
     * [Add Campaign](#add-campaign)
     * [Update Campaign](#update-campaign)
     * [Delete Campaign](#delete-campaign)
+    * [Change Active](#change-active)
+    * [Apply Campaign](#apply-campaign)
+    * [Predict Campaign](#predict-campaign)
 * [Promo](#promo)
     * [Get All Promos](#get-all-promos)
     * [Add Promo](#add-promo)
@@ -70,6 +73,7 @@ To run this project, follow these steps:
     * [Add Template Voucher](#add-template-voucher)
     * [Update Template Voucher](#update-template-voucher)
     * [Delete Template Voucher](#delete-template-voucher)
+    * [Predict Voucher](#predict-voucher)
 
 ## User
 
@@ -546,7 +550,45 @@ To run this project, follow these steps:
     "values": ""
 }
 ```
-
+### Apply Campaign
+* Method : PUT
+* URL: `/campaigns/apply-campaign`
+* Response body :
+`status code 201`
+```json
+{
+    "message": "Successs",
+    "values": ""
+}
+```
+### Predict Campaign
+* Method : PUT
+* URL: `/campaigns/predict-demand`
+* Response body :
+`status code 201`
+```json
+{
+    "message": "OK",
+    "values": {
+        "auto": [
+            67,
+            79,
+            11,
+            79,
+            11,
+            12,
+            56,
+            67,
+            12,
+            11,
+            67,
+            28,
+            12,
+            11
+        ]
+    }
+}
+```
 
 ## Promo
 ### Get All Promos
@@ -727,7 +769,7 @@ To run this project, follow these steps:
 
 ### Update Template Voucher
 * Method : PUT
-* URL: `/vouchers/<int:id>`
+* URL: `/template-vouchers/<int:id>`
 * Request body:
 ```json
 {
@@ -748,7 +790,7 @@ To run this project, follow these steps:
 
 ### Delete Template Voucher
 * Method : DELETE
-* URL: `/vouchers/<int:id>`
+* URL: `/template-vouchers/<int:id>`
 * Response body:
 ```json
 {
@@ -757,6 +799,16 @@ To run this project, follow these steps:
 }
 ```
 
+### Predict Voucher
+* Method : GET
+* URL: `/template-vouchers/1/predict`
+* Response body:
+```json
+{
+    "message": "Vocuher deleted",
+    "values": ""
+}
+```
 
 ## Status Code
 returns the following status codes in its API:

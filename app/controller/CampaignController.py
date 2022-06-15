@@ -184,8 +184,6 @@ def changeActive(id):
                 for product in products:
                     product.experiment_discount -= promo['total_discount']
                     
-                    # STUCK AT THIS !!!!
-                    
                     product.experiment_price += getDiffPrice(product.base_price,
                                     promo['total_discount'], 
                                     promo['total_max_discount'])
