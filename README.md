@@ -567,7 +567,7 @@ To run this project, follow these steps:
 }
 ```
 ### Predict Campaign
-* Method : PUT
+* Method : GET
 * URL: `/campaigns/predict-demand`
 * Response body :
 `status code 201`
@@ -730,7 +730,7 @@ To run this project, follow these steps:
 ```
 
 ##  Template Voucher
-### Get All Tempate Vouchers
+### Get All Template Vouchers
 * Method : GET
 * URL: `/template-vouchers`
 * Response body:
@@ -785,7 +785,7 @@ To run this project, follow these steps:
 ```
 
 ### Predict Voucher
-* Method : GET
+* Method : POST
 * URL: `/template-vouchers/<int:id>/predict`
 * Response body:
 ```json
