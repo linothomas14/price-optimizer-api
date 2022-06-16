@@ -26,6 +26,7 @@ To run this project, follow these steps:
 | HTTP METHOD | POST            | GET       | PUT         | DELETE |
 | ----------- | :-------: | :------:  | :------:  | :------: |
 | /users       | - | List of Users | - | - |
+| /users/`<string:id>`       | - | Detail of User | - | - |
 | /products  | Add product | List of Products | - | - |
 | /products/`<string:id>`  | - | Detail Product | Update Product | Delete Product |
 | /products?page=`<string>` | - | List of Products per Page | - | - |
@@ -33,18 +34,23 @@ To run this project, follow these steps:
 | /products?name=`<string>` | - | List of Products that have similar name | - | - |
 | /campaigns  | Add Campaign | List of Campaigns | - | - |
 | /campaigns/`<int:id>`  | - | - | Update Campaign | Delete Campaign |
+| /campaigns/`<int:id>`/change-active  | - | - | Change Active | - |
+| /campaigns/apply-campaign  | - | - | Apply Campaign | - |
+| /campaigns/predict-demand  | - | Get Predict Demand | - | - |
 | /promos  | Add Promo | List of Promos | - | - |
 | /promos/`<int:id>`  | - | - | Update Promo | Delete Promo |
 | /vouchers  | - | List of Vouchers | - | - |
 | /vouchers/`<int:id>`  | - | Get Voucher by Id | - | - |
 | /template-vouchers  | - | List of Template Vouchers | - | - |
-| /template-vouchers/`<int:id>`  | Add Template Voucher | - | Update Template Voucher | Delete Template Voucher |
+| /template-vouchers/`<int:id>`  | Add Template Voucher | - | - | Delete Template Voucher |
+| /template-vouchers/`<int:id>`/predict  | predict voucher | - | - |- |
 
 
 ## API Documentation 
 ### List of Endpoints
 * [User](#user)
     * [Get All Users](#get-all-users)
+    * [Get User by Id](#get-user-by-id)
 * [Product](#product)
     * [Get All Products or By Page](#get-all-products-or-by-page)
     * [Get Products By Category](#get-products-by-category)
@@ -57,6 +63,9 @@ To run this project, follow these steps:
     * [Add Campaign](#add-campaign)
     * [Update Campaign](#update-campaign)
     * [Delete Campaign](#delete-campaign)
+    * [Change Active](#change-active)
+    * [Apply Campaign](#apply-campaign)
+    * [Predict Campaign](#predict-campaign)
 * [Promo](#promo)
     * [Get All Promos](#get-all-promos)
     * [Add Promo](#add-promo)
@@ -68,8 +77,8 @@ To run this project, follow these steps:
 * [Template Voucher](#voucher-template)
     * [Get All Template Vouchers](#get-all-template-vouchers)
     * [Add Template Voucher](#add-template-voucher)
-    * [Update Template Voucher](#update-template-voucher)
     * [Delete Template Voucher](#delete-template-voucher)
+    * [Predict Voucher](#predict-voucher)
 
 ## User
 
@@ -546,7 +555,45 @@ To run this project, follow these steps:
     "values": ""
 }
 ```
-
+### Apply Campaign
+* Method : PUT
+* URL: `/campaigns/apply-campaign`
+* Response body :
+`status code 201`
+```json
+{
+    "message": "Successs",
+    "values": ""
+}
+```
+### Predict Campaign
+* Method : GET
+* URL: `/campaigns/predict-demand`
+* Response body :
+`status code 201`
+```json
+{
+    "message": "OK",
+    "values": {
+        "auto": [
+            67,
+            79,
+            11,
+            79,
+            11,
+            12,
+            56,
+            67,
+            12,
+            11,
+            67,
+            28,
+            12,
+            11
+        ]
+    }
+}
+```
 
 ## Promo
 ### Get All Promos
@@ -683,7 +730,7 @@ To run this project, follow these steps:
 ```
 
 ##  Template Voucher
-### Get All Tempate Vouchers
+### Get All Template Vouchers
 * Method : GET
 * URL: `/template-vouchers`
 * Response body:
@@ -725,30 +772,10 @@ To run this project, follow these steps:
 }
 ```
 
-### Update Template Voucher
-* Method : PUT
-* URL: `/vouchers/<int:id>`
-* Request body:
-```json
-{
-    "name": "Voucher parfum",
-    "category_name": "perfumery",
-    "max_discount": 0.12,
-    "budget": 100000,
-    "experied_date": "2022-10-10"
-}
-```
-* Response body:
-```json
-{
-    "message": "successfully updated",
-    "values": ""
-}
-```
 
 ### Delete Template Voucher
 * Method : DELETE
-* URL: `/vouchers/<int:id>`
+* URL: `/template-vouchers/<int:id>`
 * Response body:
 ```json
 {
@@ -757,6 +784,33 @@ To run this project, follow these steps:
 }
 ```
 
+### Predict Voucher
+* Method : POST
+* URL: `/template-vouchers/<int:id>/predict`
+* Response body:
+```json
+{
+    "message": "ok,2 user have voucher",
+    "values": [
+        {
+            "id": "c8460e4251689ba205045f3ea17884a1",
+            "voucher": [
+                "dfb97c88e066dc22165f31648efe1312",
+                "94774f52c71a3e4ce084c21c873507cc",
+                "55782cb82e0efe052da0a3da237da3b2"
+            ]
+        },
+        {
+            "id": "4546caea018ad8c692964e3382debd19",
+            "voucher": [
+                "dfb97c88e066dc22165f31648efe1312",
+                "94774f52c71a3e4ce084c21c873507cc",
+                "55782cb82e0efe052da0a3da237da3b2"
+            ]
+        }
+    ]
+}
+```
 
 ## Status Code
 returns the following status codes in its API:
