@@ -161,7 +161,7 @@ def changeActive(id):
 
             for promo in campaign:
                 products = Product.query.filter_by(product_category = promo['category_name']).all()
-
+                
                 for product in products:
                     
                     product.experiment_discount += promo['total_discount']
@@ -297,7 +297,6 @@ def getFinalProduct():
     data_products = []
     category_products = []
     promos = getAllPromoActive()
-    print(promos)
     for promo in promos:
         products = Product.query.filter_by(product_category = promo['category_name']).all()
 

@@ -10,15 +10,14 @@ class Config(object):
     PASSWORD = str(os.environ.get("DB_PASSWORD"))
     ENV = str(os.environ.get("ENV"))
     if ENV == "PROD":
-        PROJECT_ID = str(os.environ.get("PROJECT_ID"))
-        INSTANCE_NAME = str(os.environ.get("INSTANCE_NAME"))
+        CONNECTION_STRING = str(os.environ.get("CONNECTION_STRING"))
 
         '''
         use this URI for migrating at CLOUD SQL
-        
-        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@{HOST}/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
         '''
-        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
+        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@{HOST}/{DATABASE}?unix_socket=/cloudsql/{CONNECTION_STRING}"
+        
+        # SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
         
     else:
         SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + USERNAME + \

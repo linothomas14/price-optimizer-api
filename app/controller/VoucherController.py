@@ -7,7 +7,7 @@ from app import response, app, db
 def index(page):
     try:
         offset = (int(page) - 1) * 50
-        vouchers = Voucher.query.offset(offset).limit(50).all()
+        vouchers = Voucher.query.offset(offset).limit(50)
         data = transform_voucher(vouchers)
         return response.ok(data, "")
     except Exception as e:
