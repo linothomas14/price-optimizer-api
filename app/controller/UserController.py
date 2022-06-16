@@ -8,11 +8,10 @@ def index(page,name):
     try:
         offset = (int(page) - 1) * 50
         if name == "all":
-            users = User.query.offset(offset).limit(50).all()
+            users = User.query.offset(offset).limit(50)
         else :
-            print(name)
             search = "%{}%".format(name)
-            users = User.query.filter(User.name.like(search)).offset(offset).limit(50).all()
+            users = User.query.filter(User.name.like(search)).offset(offset).limit(50)
         data = transform(users)
         return response.ok(data, "")
     except Exception as e:
@@ -43,11 +42,3 @@ def show(id):
         return response.ok(data, "")
     except Exception as e:
         print(e)
-
-'''
-def assignVoucher(id_voucher):
-    try:
-        
-    except Exception as e:
-        print(e)
-'''

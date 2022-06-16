@@ -15,10 +15,10 @@ class Config(object):
 
         '''
         use this URI for migrating at CLOUD SQL
-        
-        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@{HOST}/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
         '''
-        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
+        SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@{HOST}/{DATABASE}?unix_socket=/cloudsql/arcane-storm-351610:asia-southeast2:po4-sql-asia"
+        
+        # SQLALCHEMY_DATABASE_URI= f"mysql+mysqldb://root:{PASSWORD}@/{DATABASE}?unix_socket=/cloudsql/{PROJECT_ID}:us-central1:{INSTANCE_NAME}"
         
     else:
         SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + USERNAME + \
