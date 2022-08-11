@@ -5,6 +5,7 @@ pipeline {
         stage('Migrate') {
             steps {
                 echo 'Migrating..'
+                echo 'Migrating App..'
             }
         }
         stage('Test') {
